@@ -65,17 +65,17 @@ export const SmartRedactModal: React.FC = () => {
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md animate-in fade-in duration-150">
-      <div className="w-full max-w-lg bg-[#121317] border border-[#272933] rounded-2xl shadow-2xl overflow-hidden flex flex-col max-h-[85vh]">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md animate-in fade-in duration-100">
+      <div className="w-full max-w-lg bg-[#121317] border border-[#272933] rounded-none shadow-2xl overflow-hidden flex flex-col max-h-[85vh]">
         {/* Header */}
-        <div className="p-5 border-b border-[#20222a] flex items-center justify-between bg-[#0a0b0e]">
+        <div className="p-4 border-b border-[#20222a] flex items-center justify-between bg-[#0a0b0e]">
           <div className="flex items-center space-x-3">
-            <div className="w-9 h-9 rounded-xl bg-amber-500/15 border border-amber-500/30 flex items-center justify-center text-amber-400">
-              <Zap className="w-5 h-5" />
+            <div className="w-8 h-8 rounded-none bg-amber-500/15 border border-amber-500/30 flex items-center justify-center text-amber-400">
+              <Zap className="w-4.5 h-4.5" />
             </div>
             <div>
-              <h2 className="text-sm font-bold text-white">
-                Potential Sensitive Information Detected
+              <h2 className="text-sm font-bold font-syne text-white">
+                SENSITIVE INFORMATION DETECTED
               </h2>
               <p className="text-xs text-zinc-400">
                 {smartDetections.length > 0
@@ -86,14 +86,14 @@ export const SmartRedactModal: React.FC = () => {
           </div>
           <button
             onClick={() => setIsSmartRedactModalOpen(false)}
-            className="text-zinc-400 hover:text-white p-1.5 rounded-lg hover:bg-[#1f2128] transition"
+            className="text-zinc-400 hover:text-white p-1.5 rounded-none hover:bg-[#1f2128] transition"
           >
             <X className="w-4 h-4" />
           </button>
         </div>
 
         {/* Content */}
-        <div className="p-5 overflow-y-auto space-y-4 text-xs">
+        <div className="p-4 overflow-y-auto space-y-4 text-xs">
           {smartDetections.length === 0 ? (
             <div className="text-center py-6 text-zinc-400 space-y-2">
               <p>No obvious email addresses or API keys were detected.</p>
@@ -105,10 +105,10 @@ export const SmartRedactModal: React.FC = () => {
             <>
               {/* Redaction Style Choice */}
               <div>
-                <label className="text-[11px] font-bold text-zinc-400 uppercase tracking-wider block mb-2">
+                <label className="text-[11px] font-bold font-syne text-zinc-400 uppercase tracking-wider block mb-2">
                   Apply Style to Detected Regions
                 </label>
-                <div className="grid grid-cols-3 gap-2">
+                <div className="grid grid-cols-3 gap-1.5">
                   {[
                     { id: 'blur', label: 'Blur', icon: EyeOff },
                     { id: 'pixelate', label: 'Pixelate', icon: Grid },
@@ -117,9 +117,9 @@ export const SmartRedactModal: React.FC = () => {
                     <button
                       key={id}
                       onClick={() => setChosenStyle(id as RedactionStyle)}
-                      className={`flex items-center justify-center space-x-1.5 py-2 px-3 rounded-xl border font-bold transition ${
+                      className={`flex items-center justify-center space-x-1.5 py-2 px-3 rounded-none border font-bold font-syne transition ${
                         chosenStyle === id
-                          ? 'bg-white border-white text-zinc-950 shadow-md'
+                          ? 'bg-white border-white text-zinc-950 shadow-sm'
                           : 'bg-[#18191f] border-[#272932] text-zinc-400 hover:bg-[#20222a] hover:text-white'
                       }`}
                     >
@@ -133,7 +133,7 @@ export const SmartRedactModal: React.FC = () => {
               {/* Detected Items List */}
               <div className="space-y-2">
                 <div className="flex items-center justify-between">
-                  <span className="text-[11px] font-bold text-zinc-400 uppercase tracking-wider">
+                  <span className="text-[11px] font-bold font-syne text-zinc-400 uppercase tracking-wider">
                     Detected Items ({selectedIds.length}/{smartDetections.length} selected)
                   </span>
                   <button
@@ -145,14 +145,14 @@ export const SmartRedactModal: React.FC = () => {
                   </button>
                 </div>
 
-                <div className="space-y-1.5 max-h-56 overflow-y-auto pr-1">
+                <div className="space-y-1 max-h-56 overflow-y-auto pr-1">
                   {smartDetections.map((item) => {
                     const isSelected = selectedIds.includes(item.id);
                     return (
                       <div
                         key={item.id}
                         onClick={() => toggleSelect(item.id)}
-                        className={`flex items-center justify-between p-2.5 rounded-xl border transition cursor-pointer ${
+                        className={`flex items-center justify-between p-2.5 rounded-none border transition cursor-pointer ${
                           isSelected
                             ? 'bg-[#1e2028] border-zinc-500 text-white'
                             : 'bg-[#141519] border-[#23252b] text-zinc-400 hover:bg-[#1a1b22]'
@@ -163,13 +163,13 @@ export const SmartRedactModal: React.FC = () => {
                             type="checkbox"
                             checked={isSelected}
                             onChange={() => toggleSelect(item.id)}
-                            className="rounded text-zinc-900 bg-zinc-800 border-zinc-700 cursor-pointer"
+                            className="rounded-none text-zinc-900 bg-zinc-800 border-zinc-700 cursor-pointer"
                           />
-                          <div className="w-6 h-6 rounded bg-[#252731] flex items-center justify-center shrink-0">
+                          <div className="w-5 h-5 rounded-none bg-[#252731] flex items-center justify-center shrink-0">
                             {getTypeIcon(item.type)}
                           </div>
                           <div className="truncate">
-                            <div className="font-bold text-xs text-zinc-100 truncate">
+                            <div className="font-bold text-xs text-zinc-100 truncate font-syne">
                               {item.label}
                             </div>
                             <div className="text-[10px] text-zinc-400 font-mono truncate">
@@ -193,7 +193,7 @@ export const SmartRedactModal: React.FC = () => {
         <div className="p-4 border-t border-[#20222a] bg-[#0a0b0e] flex items-center justify-between">
           <button
             onClick={() => setIsSmartRedactModalOpen(false)}
-            className="px-3.5 py-2 rounded-lg text-xs font-semibold text-zinc-400 hover:text-white hover:bg-[#1f2128] transition"
+            className="px-3.5 py-2 rounded-none text-xs font-semibold text-zinc-400 hover:text-white hover:bg-[#1f2128] transition"
           >
             Ignore & Close
           </button>
@@ -203,13 +203,13 @@ export const SmartRedactModal: React.FC = () => {
               <button
                 disabled={selectedIds.length === 0}
                 onClick={handleApply}
-                className="px-4 py-2 rounded-lg text-xs font-bold text-zinc-950 bg-white hover:bg-zinc-200 transition disabled:opacity-40 shadow-lg shadow-white/5 flex items-center space-x-1.5"
+                className="px-4 py-2 rounded-none text-xs font-bold font-syne text-zinc-950 bg-white hover:bg-zinc-200 transition disabled:opacity-40 shadow-sm flex items-center space-x-1.5"
               >
                 <Check className="w-3.5 h-3.5" />
                 <span>
                   {selectedIds.length === smartDetections.length
-                    ? `Redact All (${smartDetections.length})`
-                    : `Redact Selected (${selectedIds.length})`}
+                    ? `REDACT ALL (${smartDetections.length})`
+                    : `REDACT SELECTED (${selectedIds.length})`}
                 </span>
               </button>
             </div>

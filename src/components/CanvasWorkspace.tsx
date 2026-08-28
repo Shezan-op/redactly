@@ -118,7 +118,7 @@ export const CanvasWorkspace: React.FC = () => {
         opacity: tempShape.opacity ?? solidOpacity,
         blurStrength: tempShape.blurStrength || blurStrength,
         pixelSize: tempShape.pixelSize || pixelSize,
-        borderRadius: tempShape.borderRadius || 0,
+        borderRadius: 0,
         visible: true,
       });
     }
@@ -148,22 +148,18 @@ export const CanvasWorkspace: React.FC = () => {
       // Draw divider line
       ctx.save();
       ctx.strokeStyle = '#ffffff';
-      ctx.lineWidth = 3;
-      ctx.shadowColor = 'rgba(0, 0, 0, 0.8)';
-      ctx.shadowBlur = 10;
+      ctx.lineWidth = 2;
       ctx.beginPath();
       ctx.moveTo(splitX, 0);
       ctx.lineTo(splitX, imgH);
       ctx.stroke();
 
-      // Divider Handle Circle (Titanium Style)
+      // Divider Handle Square (Sharp Architectural Style)
       ctx.fillStyle = '#ffffff';
-      ctx.beginPath();
-      ctx.arc(splitX, imgH / 2, 16, 0, Math.PI * 2);
-      ctx.fill();
+      ctx.fillRect(splitX - 12, imgH / 2 - 12, 24, 24);
       ctx.lineWidth = 2;
       ctx.strokeStyle = '#090a0c';
-      ctx.stroke();
+      ctx.strokeRect(splitX - 12, imgH / 2 - 12, 24, 24);
       ctx.restore();
     }
 
@@ -399,7 +395,7 @@ export const CanvasWorkspace: React.FC = () => {
         opacity: solidOpacity,
         blurStrength,
         pixelSize,
-        borderRadius: 4,
+        borderRadius: 0,
         visible: true,
       });
     } else if (activeTool === 'brush') {
@@ -589,7 +585,7 @@ export const CanvasWorkspace: React.FC = () => {
           opacity: solidOpacity,
           blurStrength,
           pixelSize,
-          borderRadius: 4,
+          borderRadius: 0,
           visible: true,
         });
       }
@@ -638,7 +634,7 @@ export const CanvasWorkspace: React.FC = () => {
     >
       {/* Before / After View Tag Indicator */}
       {showBeforeAfter && (
-        <div className="absolute top-4 left-6 z-20 flex items-center space-x-2.5 bg-[#121316]/95 backdrop-blur-md px-3.5 py-1.5 rounded-full border border-[#282a33] shadow-2xl text-xs font-semibold">
+        <div className="absolute top-4 left-6 z-20 flex items-center space-x-2.5 bg-[#121316] px-3.5 py-1.5 rounded-none border border-[#282a33] text-xs font-semibold">
           <span className="text-zinc-400 font-mono text-[11px]">ORIGINAL</span>
           <span className="text-zinc-600">/</span>
           <span className="text-white font-mono text-[11px]">PROTECTED</span>
@@ -652,7 +648,7 @@ export const CanvasWorkspace: React.FC = () => {
           transformOrigin: 'center center',
           transition: dragState ? 'none' : 'transform 0.08s ease-out',
         }}
-        className="relative shadow-2xl rounded-sm ring-1 ring-zinc-800/80"
+        className="relative shadow-2xl rounded-none ring-1 ring-zinc-800"
       >
         <canvas
           ref={canvasRef}
@@ -673,7 +669,7 @@ export const CanvasWorkspace: React.FC = () => {
             }}
             className="ring-2 ring-white ring-offset-1 ring-offset-black/70"
           >
-            {/* 8 Resize Corner Dots */}
+            {/* 8 Resize Corner Dots (Sharp Squares) */}
             {(['nw', 'n', 'ne', 'e', 'se', 's', 'sw', 'w'] as ResizeHandleType[]).map((handle) => {
               let posClass = '';
               switch (handle) {
@@ -690,7 +686,7 @@ export const CanvasWorkspace: React.FC = () => {
               return (
                 <div
                   key={handle}
-                  className={`absolute w-3 h-3 bg-white border-2 border-zinc-950 rounded-sm shadow-md pointer-events-auto ${posClass}`}
+                  className={`absolute w-3 h-3 bg-white border border-zinc-950 rounded-none shadow-sm pointer-events-auto ${posClass}`}
                   style={{ cursor: `${handle}-resize` }}
                 />
               );
@@ -699,9 +695,9 @@ export const CanvasWorkspace: React.FC = () => {
             {/* Quick Delete & Layer Tag Badge */}
             <div
               style={{ pointerEvents: 'auto' }}
-              className="absolute -top-9 left-0 flex items-center space-x-2 bg-[#121317]/95 backdrop-blur-md px-2.5 py-1 rounded-md border border-[#2b2d38] shadow-2xl"
+              className="absolute -top-8 left-0 flex items-center space-x-2 bg-[#121317] px-2 py-0.5 rounded-none border border-[#2b2d38]"
             >
-              <span className="text-[11px] font-semibold text-zinc-200 capitalize">
+              <span className="text-[11px] font-bold font-syne text-zinc-200 capitalize">
                 {selectedLayer.name} ({selectedLayer.style})
               </span>
               <button
@@ -710,7 +706,7 @@ export const CanvasWorkspace: React.FC = () => {
                   deleteRedaction(selectedLayer.id);
                 }}
                 title="Delete Redaction (Delete)"
-                className="p-0.5 text-zinc-400 hover:text-rose-400 hover:bg-rose-950/40 rounded transition"
+                className="p-0.5 text-zinc-400 hover:text-rose-400 rounded-none transition"
               >
                 <Trash2 className="w-3.5 h-3.5" />
               </button>

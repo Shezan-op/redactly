@@ -78,17 +78,17 @@ export const LandingUpload: React.FC = () => {
   };
 
   return (
-    <div className="flex-1 overflow-y-auto flex flex-col items-center justify-center p-6 bg-gradient-to-b from-[#131418] via-[#0d0e11] to-[#08090b] text-zinc-100">
+    <div className="flex-1 overflow-y-auto flex flex-col items-center justify-center p-6 bg-[#090a0c] text-zinc-100">
       <div className="max-w-3xl w-full flex flex-col items-center text-center space-y-7 my-auto py-8">
         {/* Top Privacy Tag */}
-        <div className="inline-flex items-center space-x-2 px-3.5 py-1.5 rounded-full bg-[#18191f] border border-[#2c2f3a] text-zinc-300 text-xs font-semibold shadow-md">
+        <div className="inline-flex items-center space-x-2 px-3 py-1 rounded-none bg-[#141519] border border-[#272932] text-zinc-300 text-xs font-mono font-medium">
           <Lock className="w-3.5 h-3.5 text-zinc-400" />
-          <span>100% Client-Side Processing · Zero Server Uploads</span>
+          <span>100% CLIENT-SIDE PROCESSING · ZERO SERVER UPLOADS</span>
         </div>
 
         {/* Hero Headlines */}
         <div className="space-y-3 max-w-2xl">
-          <h1 className="text-3xl sm:text-4xl md:text-5xl font-black tracking-tight text-white leading-tight">
+          <h1 className="text-3xl sm:text-4xl md:text-5xl font-extrabold font-syne tracking-tight text-white leading-tight">
             Protect your screenshots <br className="hidden sm:inline" />
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-zinc-100 via-zinc-300 to-zinc-500">
               before you share them.
@@ -99,15 +99,15 @@ export const LandingUpload: React.FC = () => {
           </p>
         </div>
 
-        {/* Primary Drag & Drop Upload Zone */}
+        {/* Primary Drag & Drop Upload Zone (Sharp Architectural Border) */}
         <div
           onDragOver={handleDragOver}
           onDragLeave={handleDragLeave}
           onDrop={handleDrop}
-          className={`w-full max-w-xl p-8 sm:p-10 rounded-2xl border-2 border-dashed transition-all duration-200 cursor-pointer flex flex-col items-center justify-center ${
+          className={`w-full max-w-xl p-8 sm:p-10 rounded-none border-2 border-dashed transition-all duration-150 cursor-pointer flex flex-col items-center justify-center ${
             isDragging
-              ? 'border-zinc-300 bg-[#1c1d24] scale-[1.01] shadow-2xl shadow-white/5'
-              : 'border-[#2a2c36] bg-[#121317]/80 hover:bg-[#181920] hover:border-zinc-500 shadow-2xl'
+              ? 'border-white bg-[#1a1b22]'
+              : 'border-[#272932] bg-[#121317] hover:bg-[#181920] hover:border-zinc-500 shadow-xl'
           }`}
           onClick={() => document.getElementById('file-upload-input')?.click()}
         >
@@ -119,18 +119,18 @@ export const LandingUpload: React.FC = () => {
             className="hidden"
           />
 
-          <div className="w-16 h-16 rounded-2xl bg-gradient-to-b from-zinc-700 to-zinc-900 border border-zinc-700 flex items-center justify-center mb-4 text-white shadow-xl group-hover:scale-105 transition">
-            <Upload className="w-7 h-7" />
+          <div className="w-14 h-14 rounded-none bg-gradient-to-b from-zinc-700 to-zinc-900 border border-zinc-700 flex items-center justify-center mb-4 text-white shadow-sm">
+            <Upload className="w-6 h-6" />
           </div>
 
-          <p className="text-base font-bold text-zinc-100 mb-1">
+          <p className="text-base font-bold font-syne text-zinc-100 mb-1">
             Drop an image here
           </p>
           <p className="text-xs text-zinc-400 mb-4">
             or <span className="text-white font-semibold underline underline-offset-2 hover:text-zinc-200">choose an image</span> from your computer
           </p>
 
-          <div className="flex items-center space-x-2 text-[11px] font-mono text-zinc-400 bg-[#090a0c] px-3.5 py-1.5 rounded-lg border border-[#23252c]">
+          <div className="flex items-center space-x-2 text-[11px] font-mono text-zinc-400 bg-[#090a0c] px-3.5 py-1.5 rounded-none border border-[#23252c]">
             <span>PNG</span>
             <span>·</span>
             <span>JPG / JPEG</span>
@@ -142,37 +142,37 @@ export const LandingUpload: React.FC = () => {
         </div>
 
         {/* Capability Labels */}
-        <div className="flex flex-wrap items-center justify-center gap-2 text-xs text-zinc-300 font-medium">
-          <span className="flex items-center space-x-1.5 bg-[#141519] border border-[#262830] px-3 py-1 rounded-full">
-            <span className="w-1.5 h-1.5 rounded-full bg-zinc-300" />
-            <span>Redact</span>
+        <div className="flex flex-wrap items-center justify-center gap-1.5 text-xs text-zinc-300 font-medium">
+          <span className="flex items-center space-x-1.5 bg-[#141519] border border-[#262830] px-3 py-1 rounded-none font-mono text-[11px]">
+            <span className="w-1.5 h-1.5 bg-zinc-300 rounded-none" />
+            <span>REDACT</span>
           </span>
-          <span className="flex items-center space-x-1.5 bg-[#141519] border border-[#262830] px-3 py-1 rounded-full">
-            <span className="w-1.5 h-1.5 rounded-full bg-zinc-400" />
-            <span>Blur</span>
+          <span className="flex items-center space-x-1.5 bg-[#141519] border border-[#262830] px-3 py-1 rounded-none font-mono text-[11px]">
+            <span className="w-1.5 h-1.5 bg-zinc-400 rounded-none" />
+            <span>BLUR</span>
           </span>
-          <span className="flex items-center space-x-1.5 bg-[#141519] border border-[#262830] px-3 py-1 rounded-full">
-            <span className="w-1.5 h-1.5 rounded-full bg-zinc-300" />
-            <span>Pixelate</span>
+          <span className="flex items-center space-x-1.5 bg-[#141519] border border-[#262830] px-3 py-1 rounded-none font-mono text-[11px]">
+            <span className="w-1.5 h-1.5 bg-zinc-300 rounded-none" />
+            <span>PIXELATE</span>
           </span>
-          <span className="flex items-center space-x-1.5 bg-[#141519] border border-[#262830] px-3 py-1 rounded-full">
-            <span className="w-1.5 h-1.5 rounded-full bg-amber-400" />
-            <span>Watermark</span>
+          <span className="flex items-center space-x-1.5 bg-[#141519] border border-[#262830] px-3 py-1 rounded-none font-mono text-[11px]">
+            <span className="w-1.5 h-1.5 bg-amber-400 rounded-none" />
+            <span>WATERMARK</span>
           </span>
-          <span className="flex items-center space-x-1.5 bg-[#141519] border border-[#262830] px-3 py-1 rounded-full">
-            <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
-            <span>Permanent Flattened Export</span>
+          <span className="flex items-center space-x-1.5 bg-[#141519] border border-[#262830] px-3 py-1 rounded-none font-mono text-[11px]">
+            <span className="w-1.5 h-1.5 bg-emerald-400 rounded-none" />
+            <span>PERMANENT FLATTENED EXPORT</span>
           </span>
         </div>
 
         {/* Demo Samples Section */}
         <div className="w-full max-w-xl pt-2 border-t border-[#1f2128]">
           <div className="flex items-center justify-between mb-3 text-xs">
-            <span className="font-semibold text-zinc-400 flex items-center space-x-1.5">
+            <span className="font-bold font-syne text-zinc-400 flex items-center space-x-1.5">
               <Sparkles className="w-3.5 h-3.5 text-amber-400" />
-              <span>Or try with a sample screenshot:</span>
+              <span>TRY WITH A SAMPLE SCREENSHOT:</span>
             </span>
-            {isLoadingSample && <span className="text-zinc-200 font-semibold animate-pulse">Loading sample...</span>}
+            {isLoadingSample && <span className="text-zinc-200 font-semibold font-mono animate-pulse">Loading sample...</span>}
           </div>
 
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
@@ -186,12 +186,12 @@ export const LandingUpload: React.FC = () => {
                 key={type}
                 disabled={isLoadingSample}
                 onClick={() => handleSampleClick(type, label)}
-                className="p-3 rounded-xl bg-[#141519] hover:bg-[#1c1e25] border border-[#23252b] hover:border-zinc-600 flex flex-col items-center text-center transition group active:scale-95 disabled:opacity-50 shadow-sm"
+                className="p-3 rounded-none bg-[#141519] hover:bg-[#1c1e25] border border-[#23252b] hover:border-zinc-500 flex flex-col items-center text-center transition group active:scale-95 disabled:opacity-50 shadow-sm"
               >
-                <div className="w-8 h-8 rounded-lg bg-[#202229] group-hover:bg-white group-hover:text-zinc-950 text-zinc-300 flex items-center justify-center mb-1.5 transition">
+                <div className="w-8 h-8 rounded-none bg-[#202229] group-hover:bg-white group-hover:text-zinc-950 text-zinc-300 flex items-center justify-center mb-1.5 transition">
                   <Icon className="w-4 h-4" />
                 </div>
-                <span className="font-bold text-xs text-zinc-200 group-hover:text-white">{label}</span>
+                <span className="font-bold font-syne text-xs text-zinc-200 group-hover:text-white">{label}</span>
                 <span className="text-[10px] text-zinc-500">{desc}</span>
               </button>
             ))}
@@ -199,8 +199,8 @@ export const LandingUpload: React.FC = () => {
         </div>
 
         {/* Footer */}
-        <div className="flex items-center space-x-4 text-xs text-zinc-500 pt-2">
-          <span className="font-bold text-zinc-400">Redactly</span>
+        <div className="flex items-center space-x-4 text-xs text-zinc-500 pt-2 font-mono">
+          <span className="font-bold font-syne text-zinc-400">Redactly</span>
           <span>·</span>
           <span>100% Client-Side</span>
           <span>·</span>

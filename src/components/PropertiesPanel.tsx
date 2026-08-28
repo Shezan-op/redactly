@@ -121,48 +121,48 @@ export const PropertiesPanel: React.FC = () => {
   };
 
   return (
-    <aside className="w-80 bg-[#0e0f12]/95 backdrop-blur-md border-l border-[#1f2128] flex flex-col select-none z-20 shrink-0 overflow-hidden">
+    <aside className="w-80 bg-[#0c0d10] border-l border-[#1f2128] flex flex-col select-none z-20 shrink-0 overflow-hidden">
       {/* Tab Navigation */}
-      <div className="flex items-center border-b border-[#1f2128] bg-[#090a0c] p-1.5 gap-1">
+      <div className="flex items-center border-b border-[#1f2128] bg-[#090a0c] p-1 gap-1">
         <button
           onClick={() => setActiveTab('tools')}
-          className={`flex-1 py-1.5 text-xs font-semibold rounded-md flex items-center justify-center space-x-1.5 transition ${
+          className={`flex-1 py-1.5 text-xs font-bold font-syne rounded-none flex items-center justify-center space-x-1.5 transition ${
             activeTab === 'tools'
               ? 'bg-white text-zinc-950 shadow-sm'
               : 'text-zinc-400 hover:text-zinc-200 hover:bg-[#18191e]'
           }`}
         >
           <Square className="w-3.5 h-3.5" />
-          <span>Redact</span>
+          <span>REDACT</span>
         </button>
 
         <button
           onClick={() => setActiveTab('watermark')}
-          className={`flex-1 py-1.5 text-xs font-semibold rounded-md flex items-center justify-center space-x-1.5 transition ${
+          className={`flex-1 py-1.5 text-xs font-bold font-syne rounded-none flex items-center justify-center space-x-1.5 transition ${
             activeTab === 'watermark'
               ? 'bg-white text-zinc-950 shadow-sm'
               : 'text-zinc-400 hover:text-zinc-200 hover:bg-[#18191e]'
           }`}
         >
           <Type className="w-3.5 h-3.5" />
-          <span>Watermark</span>
+          <span>WATERMARK</span>
         </button>
 
         <button
           onClick={() => setActiveTab('logo')}
-          className={`flex-1 py-1.5 text-xs font-semibold rounded-md flex items-center justify-center space-x-1.5 transition ${
+          className={`flex-1 py-1.5 text-xs font-bold font-syne rounded-none flex items-center justify-center space-x-1.5 transition ${
             activeTab === 'logo'
               ? 'bg-white text-zinc-950 shadow-sm'
               : 'text-zinc-400 hover:text-zinc-200 hover:bg-[#18191e]'
           }`}
         >
           <ImageIcon className="w-3.5 h-3.5" />
-          <span>Logo</span>
+          <span>LOGO</span>
         </button>
 
         <button
           onClick={() => setActiveTab('layers')}
-          className={`py-1.5 px-2.5 text-xs font-semibold rounded-md flex items-center justify-center space-x-1 transition relative ${
+          className={`py-1.5 px-2 text-xs font-bold rounded-none flex items-center justify-center space-x-1 transition relative ${
             activeTab === 'layers'
               ? 'bg-white text-zinc-950 shadow-sm'
               : 'text-zinc-400 hover:text-zinc-200 hover:bg-[#18191e]'
@@ -171,7 +171,7 @@ export const PropertiesPanel: React.FC = () => {
         >
           <Layers className="w-3.5 h-3.5" />
           {redactions.length > 0 && (
-            <span className="w-4 h-4 rounded-full bg-zinc-700 text-white text-[10px] flex items-center justify-center font-bold">
+            <span className="w-3.5 h-3.5 bg-zinc-700 text-white text-[9px] font-mono flex items-center justify-center font-bold">
               {redactions.length}
             </span>
           )}
@@ -179,7 +179,7 @@ export const PropertiesPanel: React.FC = () => {
 
         <button
           onClick={() => setActiveTab('adjust')}
-          className={`py-1.5 px-2.5 text-xs font-semibold rounded-md flex items-center justify-center space-x-1 transition ${
+          className={`py-1.5 px-2 text-xs font-bold rounded-none flex items-center justify-center space-x-1 transition ${
             activeTab === 'adjust'
               ? 'bg-white text-zinc-950 shadow-sm'
               : 'text-zinc-400 hover:text-zinc-200 hover:bg-[#18191e]'
@@ -197,7 +197,7 @@ export const PropertiesPanel: React.FC = () => {
           <div className="space-y-4">
             {/* Shape Selection */}
             <div>
-              <label className="text-[11px] font-bold text-zinc-400 uppercase tracking-wider block mb-2">
+              <label className="text-[11px] font-bold font-syne text-zinc-400 uppercase tracking-wider block mb-2">
                 Redaction Shape
               </label>
               <div className="grid grid-cols-3 gap-1.5">
@@ -209,7 +209,7 @@ export const PropertiesPanel: React.FC = () => {
                   <button
                     key={id}
                     onClick={() => handleShapeChange(id as ShapeType)}
-                    className={`flex flex-col items-center justify-center py-2.5 px-2 rounded-lg border text-center transition ${
+                    className={`flex flex-col items-center justify-center py-2.5 px-2 rounded-none border text-center transition ${
                       (selectedLayer ? selectedLayer.type === id : redactionShape === id)
                         ? 'bg-[#22242b] border-zinc-400 text-white shadow-sm'
                         : 'bg-[#141519] border-[#23252b] text-zinc-400 hover:bg-[#1b1d23] hover:text-zinc-200'
@@ -224,7 +224,7 @@ export const PropertiesPanel: React.FC = () => {
 
             {/* Redaction Style */}
             <div>
-              <label className="text-[11px] font-bold text-zinc-400 uppercase tracking-wider block mb-2">
+              <label className="text-[11px] font-bold font-syne text-zinc-400 uppercase tracking-wider block mb-2">
                 Privacy Style
               </label>
               <div className="grid grid-cols-2 gap-1.5">
@@ -237,13 +237,13 @@ export const PropertiesPanel: React.FC = () => {
                   <button
                     key={id}
                     onClick={() => handleStyleChange(id as RedactionStyle)}
-                    className={`p-2.5 rounded-lg border text-left transition ${
+                    className={`p-2.5 rounded-none border text-left transition ${
                       (selectedLayer ? selectedLayer.style === id : redactionStyle === id)
                         ? 'bg-[#22242b] border-zinc-400 text-white shadow-sm'
                         : 'bg-[#141519] border-[#23252b] text-zinc-400 hover:bg-[#1b1d23] hover:text-zinc-200'
                     }`}
                   >
-                    <div className="font-bold text-xs text-zinc-100">{label}</div>
+                    <div className="font-bold text-xs text-zinc-100 font-syne">{label}</div>
                     <div className="text-[10px] text-zinc-500">{desc}</div>
                   </button>
                 ))}
@@ -252,7 +252,7 @@ export const PropertiesPanel: React.FC = () => {
 
             {/* Contextual Sliders based on Style */}
             {(selectedLayer ? selectedLayer.style === 'blur' : redactionStyle === 'blur') && (
-              <div className="bg-[#141519] p-3.5 rounded-xl border border-[#23252b] space-y-2.5">
+              <div className="bg-[#141519] p-3.5 rounded-none border border-[#23252b] space-y-2.5">
                 <div className="flex justify-between items-center text-xs">
                   <span className="font-medium text-zinc-200">Blur Strength</span>
                   <span className="font-mono text-zinc-400 font-bold">
@@ -265,13 +265,13 @@ export const PropertiesPanel: React.FC = () => {
                   max="40"
                   value={selectedLayer ? selectedLayer.blurStrength : blurStrength}
                   onChange={(e) => handleBlurStrengthChange(Number(e.target.value))}
-                  className="w-full h-1.5 bg-zinc-800 rounded-lg appearance-none cursor-pointer"
+                  className="w-full h-1 bg-zinc-800 rounded-none appearance-none cursor-pointer"
                 />
               </div>
             )}
 
             {(selectedLayer ? selectedLayer.style === 'pixelate' : redactionStyle === 'pixelate') && (
-              <div className="bg-[#141519] p-3.5 rounded-xl border border-[#23252b] space-y-2.5">
+              <div className="bg-[#141519] p-3.5 rounded-none border border-[#23252b] space-y-2.5">
                 <div className="flex justify-between items-center text-xs">
                   <span className="font-medium text-zinc-200">Pixelation Block Size</span>
                   <span className="font-mono text-zinc-400 font-bold">
@@ -284,20 +284,20 @@ export const PropertiesPanel: React.FC = () => {
                   max="36"
                   value={selectedLayer ? selectedLayer.pixelSize : pixelSize}
                   onChange={(e) => handlePixelSizeChange(Number(e.target.value))}
-                  className="w-full h-1.5 bg-zinc-800 rounded-lg appearance-none cursor-pointer"
+                  className="w-full h-1 bg-zinc-800 rounded-none appearance-none cursor-pointer"
                 />
               </div>
             )}
 
             {(selectedLayer ? selectedLayer.style === 'solid' : redactionStyle === 'solid') && (
-              <div className="bg-[#141519] p-3.5 rounded-xl border border-[#23252b] space-y-3">
+              <div className="bg-[#141519] p-3.5 rounded-none border border-[#23252b] space-y-3">
                 <div className="flex justify-between items-center text-xs">
                   <span className="font-medium text-zinc-200">Custom Color</span>
                   <input
                     type="color"
                     value={selectedLayer ? selectedLayer.color : solidColor}
                     onChange={(e) => handleColorChange(e.target.value)}
-                    className="w-6 h-6 rounded cursor-pointer border-0 bg-transparent"
+                    className="w-6 h-6 rounded-none cursor-pointer border-0 bg-transparent"
                   />
                 </div>
 
@@ -308,7 +308,7 @@ export const PropertiesPanel: React.FC = () => {
                       key={hex}
                       onClick={() => handleColorChange(hex)}
                       style={{ backgroundColor: hex }}
-                      className="w-5 h-5 rounded-full border border-zinc-700 hover:scale-110 transition"
+                      className="w-5 h-5 rounded-none border border-zinc-700 hover:scale-105 transition"
                     />
                   ))}
                 </div>
@@ -327,7 +327,7 @@ export const PropertiesPanel: React.FC = () => {
                     step="0.05"
                     value={selectedLayer ? selectedLayer.opacity : solidOpacity}
                     onChange={(e) => handleOpacityChange(Number(e.target.value))}
-                    className="w-full h-1.5 bg-zinc-800 rounded-lg appearance-none cursor-pointer"
+                    className="w-full h-1 bg-zinc-800 rounded-none appearance-none cursor-pointer"
                   />
                 </div>
               </div>
@@ -335,7 +335,7 @@ export const PropertiesPanel: React.FC = () => {
 
             {/* Brush radius slider if brush is active */}
             {(selectedLayer ? selectedLayer.type === 'brush' : redactionShape === 'brush') && (
-              <div className="bg-[#141519] p-3.5 rounded-xl border border-[#23252b] space-y-2">
+              <div className="bg-[#141519] p-3.5 rounded-none border border-[#23252b] space-y-2">
                 <div className="flex justify-between items-center text-xs">
                   <span className="font-medium text-zinc-200">Brush Radius</span>
                   <span className="font-mono text-zinc-400 font-bold">{brushRadius}px</span>
@@ -346,16 +346,16 @@ export const PropertiesPanel: React.FC = () => {
                   max="48"
                   value={brushRadius}
                   onChange={(e) => setBrushRadius(Number(e.target.value))}
-                  className="w-full h-1.5 bg-zinc-800 rounded-lg appearance-none cursor-pointer"
+                  className="w-full h-1 bg-zinc-800 rounded-none appearance-none cursor-pointer"
                 />
               </div>
             )}
 
             {/* Crop section toggle if Crop tool is active */}
             {activeTool === 'crop' && (
-              <div className="bg-[#18191e] border border-zinc-700 p-3.5 rounded-xl space-y-3">
+              <div className="bg-[#18191e] border border-zinc-700 p-3.5 rounded-none space-y-3">
                 <div className="flex items-center justify-between">
-                  <span className="font-bold text-xs text-white">Crop Tool Active</span>
+                  <span className="font-bold text-xs text-white font-syne">Crop Tool Active</span>
                   <span className="text-[10px] text-zinc-400">Drag to crop</span>
                 </div>
                 <div className="grid grid-cols-3 gap-1">
@@ -363,7 +363,7 @@ export const PropertiesPanel: React.FC = () => {
                     <button
                       key={r}
                       onClick={() => updateCrop({ aspectRatio: r })}
-                      className={`py-1 text-[10px] font-bold uppercase rounded border transition ${
+                      className={`py-1 text-[10px] font-bold uppercase rounded-none border transition ${
                         crop.aspectRatio === r
                           ? 'bg-white border-white text-zinc-950'
                           : 'bg-[#101114] border-[#23252b] text-zinc-400 hover:bg-[#18191e]'
@@ -376,13 +376,13 @@ export const PropertiesPanel: React.FC = () => {
                 <div className="flex space-x-2 pt-1">
                   <button
                     onClick={applyCrop}
-                    className="flex-1 py-1.5 bg-white hover:bg-zinc-200 text-zinc-950 font-bold rounded-lg text-xs transition shadow-sm"
+                    className="flex-1 py-1.5 bg-white hover:bg-zinc-200 text-zinc-950 font-bold font-syne rounded-none text-xs transition"
                   >
                     Apply Crop
                   </button>
                   <button
                     onClick={cancelCrop}
-                    className="px-3 py-1.5 bg-[#23252c] hover:bg-[#2c2f38] text-zinc-300 rounded-lg text-xs transition"
+                    className="px-3 py-1.5 bg-[#23252c] hover:bg-[#2c2f38] text-zinc-300 rounded-none text-xs transition"
                   >
                     Cancel
                   </button>
@@ -396,22 +396,22 @@ export const PropertiesPanel: React.FC = () => {
         {activeTab === 'watermark' && (
           <div className="space-y-4">
             {/* Watermark Toggle */}
-            <div className="flex items-center justify-between bg-[#141519] p-3.5 rounded-xl border border-[#23252b]">
+            <div className="flex items-center justify-between bg-[#141519] p-3.5 rounded-none border border-[#23252b]">
               <div>
-                <div className="font-bold text-xs text-zinc-100">Enable Text Watermark</div>
+                <div className="font-bold text-xs text-zinc-100 font-syne">Enable Text Watermark</div>
                 <div className="text-[10px] text-zinc-400">Display watermark over image</div>
               </div>
               <input
                 type="checkbox"
                 checked={watermark.enabled}
                 onChange={(e) => updateWatermark({ enabled: e.target.checked })}
-                className="w-4 h-4 rounded text-zinc-900 focus:ring-zinc-500 bg-zinc-800 border-zinc-700 cursor-pointer"
+                className="w-4 h-4 rounded-none text-zinc-900 focus:ring-zinc-500 bg-zinc-800 border-zinc-700 cursor-pointer"
               />
             </div>
 
             {/* Quick Presets */}
             <div>
-              <label className="text-[11px] font-bold text-zinc-400 uppercase tracking-wider block mb-2">
+              <label className="text-[11px] font-bold font-syne text-zinc-400 uppercase tracking-wider block mb-2">
                 Quick Presets
               </label>
               <div className="grid grid-cols-2 gap-1.5">
@@ -419,9 +419,9 @@ export const PropertiesPanel: React.FC = () => {
                   <button
                     key={preset.id}
                     onClick={() => applyWatermarkPreset(preset.id)}
-                    className="p-2.5 rounded-xl bg-[#141519] hover:bg-[#1b1d23] border border-[#23252b] text-left transition group"
+                    className="p-2.5 rounded-none bg-[#141519] hover:bg-[#1b1d23] border border-[#23252b] text-left transition group"
                   >
-                    <div className="font-bold text-xs text-zinc-200 group-hover:text-white">
+                    <div className="font-bold text-xs text-zinc-200 group-hover:text-white font-syne">
                       {preset.name}
                     </div>
                     <div className="text-[10px] text-zinc-500 truncate">{preset.description}</div>
@@ -432,7 +432,7 @@ export const PropertiesPanel: React.FC = () => {
 
             {/* Watermark Text */}
             <div>
-              <label className="text-[11px] font-bold text-zinc-400 uppercase tracking-wider block mb-1.5">
+              <label className="text-[11px] font-bold font-syne text-zinc-400 uppercase tracking-wider block mb-1.5">
                 Watermark Text
               </label>
               <input
@@ -440,13 +440,13 @@ export const PropertiesPanel: React.FC = () => {
                 value={watermark.text}
                 onChange={(e) => updateWatermark({ text: e.target.value })}
                 placeholder="e.g. CONFIDENTIAL"
-                className="w-full bg-[#090a0c] border border-[#272930] rounded-lg px-3 py-2 text-xs text-zinc-100 placeholder-zinc-600 focus:outline-none focus:border-zinc-400 focus:ring-1 focus:ring-zinc-400"
+                className="w-full bg-[#090a0c] border border-[#272930] rounded-none px-3 py-2 text-xs text-zinc-100 placeholder-zinc-600 focus:outline-none focus:border-zinc-400 focus:ring-1 focus:ring-zinc-400 font-medium"
               />
             </div>
 
             {/* Layout Mode */}
             <div>
-              <label className="text-[11px] font-bold text-zinc-400 uppercase tracking-wider block mb-1.5">
+              <label className="text-[11px] font-bold font-syne text-zinc-400 uppercase tracking-wider block mb-1.5">
                 Layout Pattern
               </label>
               <div className="grid grid-cols-3 gap-1">
@@ -460,7 +460,7 @@ export const PropertiesPanel: React.FC = () => {
                   <button
                     key={id}
                     onClick={() => updateWatermark({ layoutMode: id as WatermarkLayoutMode })}
-                    className={`py-1.5 rounded-lg text-xs font-semibold border transition ${
+                    className={`py-1.5 rounded-none text-xs font-bold font-syne border transition ${
                       watermark.layoutMode === id
                         ? 'bg-white border-white text-zinc-950 shadow-sm'
                         : 'bg-[#141519] border-[#23252b] text-zinc-400 hover:bg-[#1b1d23] hover:text-zinc-200'
@@ -475,10 +475,10 @@ export const PropertiesPanel: React.FC = () => {
             {/* Position Presets (if single mode) */}
             {watermark.layoutMode === 'single' && (
               <div>
-                <label className="text-[11px] font-bold text-zinc-400 uppercase tracking-wider block mb-1.5">
+                <label className="text-[11px] font-bold font-syne text-zinc-400 uppercase tracking-wider block mb-1.5">
                   Position Preset
                 </label>
-                <div className="grid grid-cols-3 gap-1 bg-[#090a0c] p-1.5 rounded-lg border border-[#23252b]">
+                <div className="grid grid-cols-3 gap-1 bg-[#090a0c] p-1 rounded-none border border-[#23252b]">
                   {(
                     [
                       'top-left',
@@ -493,7 +493,7 @@ export const PropertiesPanel: React.FC = () => {
                     <button
                       key={pos}
                       onClick={() => updateWatermark({ positionPreset: pos })}
-                      className={`py-1 text-[10px] capitalize rounded font-semibold transition ${
+                      className={`py-1 text-[10px] capitalize rounded-none font-semibold transition ${
                         watermark.positionPreset === pos
                           ? 'bg-white text-zinc-950'
                           : 'text-zinc-400 hover:bg-[#18191e] hover:text-zinc-200'
@@ -507,21 +507,21 @@ export const PropertiesPanel: React.FC = () => {
             )}
 
             {/* Typography & Styling Controls */}
-            <div className="bg-[#141519] p-3.5 rounded-xl border border-[#23252b] space-y-3.5">
+            <div className="bg-[#141519] p-3.5 rounded-none border border-[#23252b] space-y-3.5">
               {/* Font Family */}
               <div className="flex justify-between items-center">
                 <span className="text-zinc-400 font-medium">Font</span>
                 <select
                   value={watermark.fontFamily}
                   onChange={(e) => updateWatermark({ fontFamily: e.target.value })}
-                  className="bg-[#090a0c] border border-[#272930] rounded-lg px-2.5 py-1 text-xs text-zinc-200 focus:outline-none focus:border-zinc-400"
+                  className="bg-[#090a0c] border border-[#272930] rounded-none px-2.5 py-1 text-xs text-zinc-200 focus:outline-none focus:border-zinc-400"
                 >
+                  <option value="Syne">Syne (Geometric Display)</option>
+                  <option value="Space Grotesk">Space Grotesk</option>
                   <option value="Inter">Inter (Sans)</option>
                   <option value="JetBrains Mono">JetBrains Mono</option>
-                  <option value="Plus Jakarta Sans">Jakarta Sans</option>
                   <option value="Impact">Impact (Heavy)</option>
                   <option value="Times New Roman">Times (Serif)</option>
-                  <option value="Courier New">Courier (Typewriter)</option>
                 </select>
               </div>
 
@@ -537,7 +537,7 @@ export const PropertiesPanel: React.FC = () => {
                   max="96"
                   value={watermark.fontSize}
                   onChange={(e) => updateWatermark({ fontSize: Number(e.target.value) })}
-                  className="w-full h-1.5 bg-zinc-800 rounded-lg appearance-none cursor-pointer"
+                  className="w-full h-1 bg-zinc-800 rounded-none appearance-none cursor-pointer"
                 />
               </div>
 
@@ -556,7 +556,7 @@ export const PropertiesPanel: React.FC = () => {
                   step="0.05"
                   value={watermark.opacity}
                   onChange={(e) => updateWatermark({ opacity: Number(e.target.value) })}
-                  className="w-full h-1.5 bg-zinc-800 rounded-lg appearance-none cursor-pointer"
+                  className="w-full h-1 bg-zinc-800 rounded-none appearance-none cursor-pointer"
                 />
               </div>
 
@@ -572,14 +572,14 @@ export const PropertiesPanel: React.FC = () => {
                   max="90"
                   value={watermark.rotation}
                   onChange={(e) => updateWatermark({ rotation: Number(e.target.value) })}
-                  className="w-full h-1.5 bg-zinc-800 rounded-lg appearance-none cursor-pointer"
+                  className="w-full h-1 bg-zinc-800 rounded-none appearance-none cursor-pointer"
                 />
                 <div className="flex justify-between pt-1">
                   {[-45, -30, -15, 0, 15, 30, 45].map((deg) => (
                     <button
                       key={deg}
                       onClick={() => updateWatermark({ rotation: deg })}
-                      className={`text-[9px] font-bold px-1.5 py-0.5 rounded ${
+                      className={`text-[9px] font-bold px-1.5 py-0.5 rounded-none ${
                         watermark.rotation === deg ? 'bg-white text-zinc-950' : 'text-zinc-500 hover:text-zinc-300'
                       }`}
                     >
@@ -597,7 +597,7 @@ export const PropertiesPanel: React.FC = () => {
                     type="color"
                     value={watermark.color}
                     onChange={(e) => updateWatermark({ color: e.target.value })}
-                    className="w-5 h-5 rounded cursor-pointer border-0 bg-transparent"
+                    className="w-5 h-5 rounded-none cursor-pointer border-0 bg-transparent"
                   />
                 </div>
                 <label className="flex items-center space-x-1.5 cursor-pointer text-zinc-400 hover:text-zinc-200">
@@ -605,7 +605,7 @@ export const PropertiesPanel: React.FC = () => {
                     type="checkbox"
                     checked={watermark.shadow}
                     onChange={(e) => updateWatermark({ shadow: e.target.checked })}
-                    className="rounded text-zinc-900 bg-zinc-800 border-zinc-700"
+                    className="rounded-none text-zinc-900 bg-zinc-800 border-zinc-700"
                   />
                   <span className="text-[11px] font-medium">Drop Shadow</span>
                 </label>
@@ -617,48 +617,48 @@ export const PropertiesPanel: React.FC = () => {
         {/* ===================== TAB 3: LOGO WATERMARK ===================== */}
         {activeTab === 'logo' && (
           <div className="space-y-4">
-            <div className="flex items-center justify-between bg-[#141519] p-3.5 rounded-xl border border-[#23252b]">
+            <div className="flex items-center justify-between bg-[#141519] p-3.5 rounded-none border border-[#23252b]">
               <div>
-                <div className="font-bold text-xs text-zinc-100">Enable Logo Overlay</div>
+                <div className="font-bold text-xs text-zinc-100 font-syne">Enable Logo Overlay</div>
                 <div className="text-[10px] text-zinc-400">Brand watermark badge</div>
               </div>
               <input
                 type="checkbox"
                 checked={logo.enabled}
                 onChange={(e) => updateLogo({ enabled: e.target.checked })}
-                className="w-4 h-4 rounded text-zinc-900 focus:ring-zinc-500 bg-zinc-800 border-zinc-700 cursor-pointer"
+                className="w-4 h-4 rounded-none text-zinc-900 focus:ring-zinc-500 bg-zinc-800 border-zinc-700 cursor-pointer"
               />
             </div>
 
             {/* Logo Uploader / Preview */}
             <div className="space-y-2">
-              <label className="text-[11px] font-bold text-zinc-400 uppercase tracking-wider block">
+              <label className="text-[11px] font-bold font-syne text-zinc-400 uppercase tracking-wider block">
                 Logo Image (PNG, JPG, WebP)
               </label>
 
               {logo.imageSrc ? (
-                <div className="bg-[#090a0c] p-3 rounded-xl border border-[#23252b] flex items-center justify-between">
+                <div className="bg-[#090a0c] p-3 rounded-none border border-[#23252b] flex items-center justify-between">
                   <div className="flex items-center space-x-3">
-                    <img src={logo.imageSrc} alt="Logo" className="w-10 h-10 object-contain bg-[#18191e] rounded p-1" />
+                    <img src={logo.imageSrc} alt="Logo" className="w-10 h-10 object-contain bg-[#18191e] rounded-none p-1" />
                     <div>
                       <div className="font-medium text-xs text-zinc-200 truncate max-w-[140px]">
                         {logo.fileName || 'logo.png'}
                       </div>
-                      <span className="text-[10px] text-emerald-400 font-semibold">Loaded</span>
+                      <span className="text-[10px] text-emerald-400 font-semibold font-mono">LOADED</span>
                     </div>
                   </div>
                   <button
                     onClick={removeLogoImage}
                     title="Remove Logo"
-                    className="p-1.5 text-zinc-400 hover:text-rose-400 hover:bg-rose-950/40 rounded transition"
+                    className="p-1.5 text-zinc-400 hover:text-rose-400 rounded-none transition"
                   >
                     <Trash2 className="w-4 h-4" />
                   </button>
                 </div>
               ) : (
-                <label className="border-2 border-dashed border-[#2b2e37] hover:border-zinc-400 bg-[#141519] hover:bg-[#1a1c22] p-5 rounded-2xl flex flex-col items-center justify-center cursor-pointer transition text-center">
+                <label className="border border-dashed border-[#2b2e37] hover:border-zinc-400 bg-[#141519] hover:bg-[#1a1c22] p-5 rounded-none flex flex-col items-center justify-center cursor-pointer transition text-center">
                   <Upload className="w-6 h-6 text-zinc-400 mb-1.5" />
-                  <span className="text-xs font-bold text-zinc-200">Upload Brand Logo</span>
+                  <span className="text-xs font-bold font-syne text-zinc-200">UPLOAD BRAND LOGO</span>
                   <span className="text-[10px] text-zinc-500 mt-0.5">Transparent PNG recommended</span>
                   <input type="file" accept="image/png,image/jpeg,image/webp" onChange={handleLogoUpload} className="hidden" />
                 </label>
@@ -667,7 +667,7 @@ export const PropertiesPanel: React.FC = () => {
 
             {/* Logo Settings */}
             {logo.imageSrc && (
-              <div className="bg-[#141519] p-3.5 rounded-xl border border-[#23252b] space-y-3">
+              <div className="bg-[#141519] p-3.5 rounded-none border border-[#23252b] space-y-3">
                 {/* Scale */}
                 <div className="space-y-1">
                   <div className="flex justify-between text-xs">
@@ -681,7 +681,7 @@ export const PropertiesPanel: React.FC = () => {
                     step="0.02"
                     value={logo.scale}
                     onChange={(e) => updateLogo({ scale: Number(e.target.value) })}
-                    className="w-full h-1.5 bg-zinc-800 rounded-lg appearance-none cursor-pointer"
+                    className="w-full h-1 bg-zinc-800 rounded-none appearance-none cursor-pointer"
                   />
                 </div>
 
@@ -698,20 +698,20 @@ export const PropertiesPanel: React.FC = () => {
                     step="0.05"
                     value={logo.opacity}
                     onChange={(e) => updateLogo({ opacity: Number(e.target.value) })}
-                    className="w-full h-1.5 bg-zinc-800 rounded-lg appearance-none cursor-pointer"
+                    className="w-full h-1 bg-zinc-800 rounded-none appearance-none cursor-pointer"
                   />
                 </div>
 
                 {/* Position Preset */}
                 <div>
                   <span className="text-zinc-400 block mb-1 text-xs">Position</span>
-                  <div className="grid grid-cols-3 gap-1 bg-[#090a0c] p-1.5 rounded-lg border border-[#23252b]">
+                  <div className="grid grid-cols-3 gap-1 bg-[#090a0c] p-1 rounded-none border border-[#23252b]">
                     {(['top-left', 'top-right', 'center', 'bottom-left', 'bottom-right'] as PositionPreset[]).map(
                       (pos) => (
                         <button
                           key={pos}
                           onClick={() => updateLogo({ positionPreset: pos })}
-                          className={`py-1 text-[10px] capitalize rounded font-semibold transition ${
+                          className={`py-1 text-[10px] capitalize rounded-none font-semibold transition ${
                             logo.positionPreset === pos
                               ? 'bg-white text-zinc-950'
                               : 'text-zinc-400 hover:bg-[#18191e]'
@@ -732,7 +732,7 @@ export const PropertiesPanel: React.FC = () => {
         {activeTab === 'layers' && (
           <div className="space-y-3">
             <div className="flex items-center justify-between">
-              <span className="text-[11px] font-bold text-zinc-400 uppercase tracking-wider">
+              <span className="text-[11px] font-bold font-syne text-zinc-400 uppercase tracking-wider">
                 Redactions ({redactions.length})
               </span>
               {redactions.length > 0 && (
@@ -746,9 +746,9 @@ export const PropertiesPanel: React.FC = () => {
             </div>
 
             {redactions.length === 0 ? (
-              <div className="text-center py-8 text-zinc-500 bg-[#090a0c] rounded-xl border border-dashed border-[#23252b] p-4">
+              <div className="text-center py-8 text-zinc-500 bg-[#090a0c] rounded-none border border-dashed border-[#23252b] p-4">
                 <Square className="w-6 h-6 mx-auto mb-2 text-zinc-600" />
-                <p className="font-semibold text-zinc-400">No redactions yet</p>
+                <p className="font-bold font-syne text-zinc-400">No redactions yet</p>
                 <p className="text-[10px] mt-1 text-zinc-600">
                   Draw rectangles, circles, or brush strokes over sensitive areas.
                 </p>
@@ -766,9 +766,9 @@ export const PropertiesPanel: React.FC = () => {
                         setSelectedLayerId(layer.id);
                         setActiveTool('select');
                       }}
-                      className={`flex items-center justify-between p-2.5 rounded-xl border transition cursor-pointer ${
+                      className={`flex items-center justify-between p-2.5 rounded-none border transition cursor-pointer ${
                         isSelected
-                          ? 'bg-[#22242c] border-zinc-400 shadow-md text-white'
+                          ? 'bg-[#22242c] border-zinc-400 shadow-sm text-white'
                           : 'bg-[#141519] border-[#23252b] hover:bg-[#1a1c22]'
                       }`}
                     >
@@ -781,7 +781,7 @@ export const PropertiesPanel: React.FC = () => {
                           <Square className="w-3.5 h-3.5 text-zinc-300 shrink-0" />
                         )}
                         <div className="truncate">
-                          <div className="font-semibold text-xs text-zinc-100 truncate">{layer.name}</div>
+                          <div className="font-bold font-syne text-xs text-zinc-100 truncate">{layer.name}</div>
                           <div className="text-[10px] text-zinc-500 capitalize">{layer.style}</div>
                         </div>
                       </div>
@@ -834,15 +834,15 @@ export const PropertiesPanel: React.FC = () => {
         {activeTab === 'adjust' && (
           <div className="space-y-4">
             <div className="flex items-center justify-between">
-              <span className="text-[11px] font-bold text-zinc-400 uppercase tracking-wider">
-                Lightweight Image Tuning
+              <span className="text-[11px] font-bold font-syne text-zinc-400 uppercase tracking-wider">
+                Image Tuning
               </span>
               <button onClick={resetAdjustments} className="text-[10px] text-zinc-300 font-semibold hover:underline">
                 Reset
               </button>
             </div>
 
-            <div className="bg-[#141519] p-3.5 rounded-xl border border-[#23252b] space-y-3.5">
+            <div className="bg-[#141519] p-3.5 rounded-none border border-[#23252b] space-y-3.5">
               {/* Brightness */}
               <div className="space-y-1">
                 <div className="flex justify-between text-xs">
@@ -855,7 +855,7 @@ export const PropertiesPanel: React.FC = () => {
                   max="100"
                   value={adjustments.brightness}
                   onChange={(e) => updateAdjustments({ brightness: Number(e.target.value) })}
-                  className="w-full h-1.5 bg-zinc-800 rounded-lg appearance-none cursor-pointer"
+                  className="w-full h-1 bg-zinc-800 rounded-none appearance-none cursor-pointer"
                 />
               </div>
 
@@ -871,7 +871,7 @@ export const PropertiesPanel: React.FC = () => {
                   max="100"
                   value={adjustments.contrast}
                   onChange={(e) => updateAdjustments({ contrast: Number(e.target.value) })}
-                  className="w-full h-1.5 bg-zinc-800 rounded-lg appearance-none cursor-pointer"
+                  className="w-full h-1 bg-zinc-800 rounded-none appearance-none cursor-pointer"
                 />
               </div>
 
@@ -887,7 +887,7 @@ export const PropertiesPanel: React.FC = () => {
                   max="100"
                   value={adjustments.saturation}
                   onChange={(e) => updateAdjustments({ saturation: Number(e.target.value) })}
-                  className="w-full h-1.5 bg-zinc-800 rounded-lg appearance-none cursor-pointer"
+                  className="w-full h-1 bg-zinc-800 rounded-none appearance-none cursor-pointer"
                 />
               </div>
 
@@ -903,7 +903,7 @@ export const PropertiesPanel: React.FC = () => {
                   max="50"
                   value={adjustments.exposure}
                   onChange={(e) => updateAdjustments({ exposure: Number(e.target.value) })}
-                  className="w-full h-1.5 bg-zinc-800 rounded-lg appearance-none cursor-pointer"
+                  className="w-full h-1 bg-zinc-800 rounded-none appearance-none cursor-pointer"
                 />
               </div>
 
@@ -919,7 +919,7 @@ export const PropertiesPanel: React.FC = () => {
                   max="100"
                   value={adjustments.sharpness}
                   onChange={(e) => updateAdjustments({ sharpness: Number(e.target.value) })}
-                  className="w-full h-1.5 bg-zinc-800 rounded-lg appearance-none cursor-pointer"
+                  className="w-full h-1 bg-zinc-800 rounded-none appearance-none cursor-pointer"
                 />
               </div>
             </div>

@@ -6,17 +6,30 @@
   }
   
   body {
-    font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+    font-family: 'Space Grotesk', 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
     user-select: none;
     -webkit-user-select: none;
     background-color: #090a0c;
     color: #f4f4f5;
   }
 
+  h1, h2, h3, h4, .font-heading, .font-syne {
+    font-family: 'Syne', system-ui, -apple-system, sans-serif;
+  }
+
   input, textarea {
     user-select: auto;
     -webkit-user-select: auto;
   }
+}
+
+/* Typography Utility */
+.font-syne {
+  font-family: 'Syne', system-ui, -apple-system, sans-serif;
+}
+
+.font-body {
+  font-family: 'Space Grotesk', 'Inter', system-ui, sans-serif;
 }
 
 /* Premium Charcoal Transparent Checkerboard Pattern */
@@ -31,9 +44,9 @@
   background-position: 0 0, 0 10px, 10px -10px, -10px 0px;
 }
 
-/* Premium Obsidian Glassmorphism Panels */
+/* Sharp Architectural Obsidian Glassmorphism Panels */
 .charcoal-panel {
-  background: rgba(18, 19, 23, 0.88);
+  background: rgba(18, 19, 23, 0.92);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
   border: 1px solid rgba(255, 255, 255, 0.08);
@@ -53,8 +66,8 @@
 
 /* Sleek Charcoal Scrollbar */
 ::-webkit-scrollbar {
-  width: 5px;
-  height: 5px;
+  width: 4px;
+  height: 4px;
 }
 
 ::-webkit-scrollbar-track {
@@ -63,28 +76,19 @@
 
 ::-webkit-scrollbar-thumb {
   background: #272930;
-  border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
   background: #3f424e;
 }
 
-/* Custom Titanium Range Sliders */
+/* Custom Titanium Range Sliders with Sharp styling */
 input[type="range"] {
   accent-color: #f4f4f5;
 }
 
-/* Metallic Shimmer & Glow */
-@keyframes subtleGlow {
-  0%, 100% {
-    box-shadow: 0 0 20px rgba(255, 255, 255, 0.03);
-  }
-  50% {
-    box-shadow: 0 0 35px rgba(255, 255, 255, 0.08);
-  }
-}
-
-.charcoal-glow {
-  animation: subtleGlow 4s infinite ease-in-out;
+/* Sharp Precision Focus & Selection */
+*:focus-visible {
+  outline: 1px solid #ffffff;
+  outline-offset: 1px;
 }
