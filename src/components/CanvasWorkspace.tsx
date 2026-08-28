@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
-import { Trash2 } from 'lucide-react';
+import { SlidersHorizontal, Trash2 } from 'lucide-react';
 import { useEditor } from '../context/EditorContext';
 import { applyImageAdjustments, renderRedactionLayer } from '../engine/pixelProcessing';
 import type { Point, RedactionLayer } from '../engine/types';
@@ -50,6 +50,8 @@ export const CanvasWorkspace: React.FC = () => {
     showBeforeAfter,
     beforeAfterSplit,
     setBeforeAfterSplit,
+    isMobilePanelOpen,
+    setIsMobilePanelOpen,
   } = useEditor();
 
   const containerRef = useRef<HTMLDivElement>(null);
@@ -658,6 +660,15 @@ export const CanvasWorkspace: React.FC = () => {
           <span className="text-white font-mono text-[10px] sm:text-[11px]">PROTECTED</span>
         </div>
       )}
+
+      {/* Floating Mobile Options / Inspector Trigger Button */}
+      <button
+        onClick={() => setIsMobilePanelOpen(!isMobilePanelOpen)}
+        className="md:hidden absolute top-3 right-4 z-20 flex items-center space-x-1.5 bg-[#141519]/95 backdrop-blur-md px-3 py-1.5 border border-[#282a33] text-xs font-bold font-syne text-zinc-100 shadow-xl active:scale-95 min-h-[36px]"
+      >
+        <SlidersHorizontal className="w-3.5 h-3.5 text-zinc-300" />
+        <span>{isMobilePanelOpen ? 'HIDE OPTIONS' : 'EDIT OPTIONS'}</span>
+      </button>
 
       {/* Floating Canvas Transform Wrapper */}
       <div

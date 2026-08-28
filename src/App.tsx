@@ -20,14 +20,14 @@ const MainApp: React.FC = () => {
 
       {/* Main Workspace or Landing View */}
       {originalImage ? (
-        <div className="flex-1 flex flex-col md:flex-row overflow-hidden relative">
-          {/* Left Vertical Toolbar */}
+        <div className="flex-1 flex flex-col md:flex-row overflow-hidden relative min-h-0 w-full">
+          {/* Left Vertical Toolbar on Desktop, Bottom Fixed Dock on Mobile */}
           <Toolbar />
 
           {/* Center Interactive Canvas Viewport */}
           <CanvasWorkspace />
 
-          {/* Right Properties & Settings Panel */}
+          {/* Right Properties & Settings Panel on Desktop, Slide-up Drawer on Mobile */}
           <PropertiesPanel />
         </div>
       ) : (

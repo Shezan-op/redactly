@@ -158,6 +158,8 @@ interface EditorContextValue {
   setIsShortcutsOpen: (open: boolean) => void;
   isResetConfirmOpen: boolean;
   setIsResetConfirmOpen: (open: boolean) => void;
+  isMobilePanelOpen: boolean;
+  setIsMobilePanelOpen: (open: boolean) => void;
 }
 
 const EditorContext = createContext<EditorContextValue | null>(null);
@@ -210,6 +212,7 @@ export const EditorProvider: React.FC<{ children: React.ReactNode }> = ({ childr
   const [isSmartRedactModalOpen, setIsSmartRedactModalOpen] = useState<boolean>(false);
   const [isShortcutsOpen, setIsShortcutsOpen] = useState<boolean>(false);
   const [isResetConfirmOpen, setIsResetConfirmOpen] = useState<boolean>(false);
+  const [isMobilePanelOpen, setIsMobilePanelOpen] = useState<boolean>(false);
 
   // History Engine
   const [history, setHistory] = useState<HistorySnapshot[]>([]);
@@ -809,6 +812,8 @@ export const EditorProvider: React.FC<{ children: React.ReactNode }> = ({ childr
         setIsShortcutsOpen,
         isResetConfirmOpen,
         setIsResetConfirmOpen,
+        isMobilePanelOpen,
+        setIsMobilePanelOpen,
       }}
     >
       {children}

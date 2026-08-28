@@ -26,6 +26,8 @@ export const Toolbar: React.FC = () => {
     updateWatermark,
     runSmartDetection,
     isDetecting,
+    isMobilePanelOpen,
+    setIsMobilePanelOpen,
   } = useEditor();
 
   const handleToolClick = (tool: ToolType) => {
@@ -39,13 +41,21 @@ export const Toolbar: React.FC = () => {
       setRedactionShape('brush');
     } else if (tool === 'watermark') {
       updateWatermark({ enabled: true });
+      // On mobile, auto open options so user can type watermark text
+      if (window.innerWidth < 768) {
+        setIsMobilePanelOpen(true);
+      }
     } else if (tool === 'smart_redact') {
       runSmartDetection();
+    } else if (tool === 'adjust' || tool === 'crop') {
+      if (window.innerWidth < 768) {
+        setIsMobilePanelOpen(true);
+      }
     }
   };
 
   return (
-    <aside className="w-full md:w-14 bg-[#0c0d10] border-t md:border-t-0 md:border-r border-[#1f2128] flex flex-row md:flex-col items-center justify-between md:justify-start px-2 py-1.5 md:py-2.5 select-none z-20 shrink-0 overflow-x-auto md:overflow-y-auto no-scrollbar order-2 md:order-1 h-14 md:h-full">
+    <aside className="w-full md:w-14 bg-[#0c0d10] border-t md:border-t-0 md:border-r border-[#1f2128] flex flex-row md:flex-col items-center justify-between md:justify-start px-2 py-1 md:py-2.5 select-none z-30 shrink-0 overflow-x-auto md:overflow-y-auto no-scrollbar order-last md:order-first h-14 md:h-full">
       {/* Primary Selection */}
       <div className="flex flex-row md:flex-col items-center space-x-1 md:space-x-0 md:space-y-1">
         <button
@@ -62,7 +72,7 @@ export const Toolbar: React.FC = () => {
       </div>
 
       <div className="hidden md:block w-6 h-[1px] bg-[#1f2128] my-1.5" />
-      <div className="block md:hidden h-6 w-[1px] bg-[#1f2128] mx-1" />
+      <div className="block md:hidden h-6 w-[1px] bg-[#1f2128] mx-0.5" />
 
       {/* Redaction Shapes Section */}
       <div className="flex flex-row md:flex-col items-center space-x-1 md:space-x-0 md:space-y-1">
@@ -119,7 +129,7 @@ export const Toolbar: React.FC = () => {
       </div>
 
       <div className="hidden md:block w-6 h-[1px] bg-[#1f2128] my-1.5" />
-      <div className="block md:hidden h-6 w-[1px] bg-[#1f2128] mx-1" />
+      <div className="block md:hidden h-6 w-[1px] bg-[#1f2128] mx-0.5" />
 
       {/* Redaction Styles Quick Select */}
       <div className="flex flex-row md:flex-col items-center space-x-1 md:space-x-0 md:space-y-1">
@@ -164,7 +174,7 @@ export const Toolbar: React.FC = () => {
       </div>
 
       <div className="hidden md:block w-6 h-[1px] bg-[#1f2128] my-1.5" />
-      <div className="block md:hidden h-6 w-[1px] bg-[#1f2128] mx-1" />
+      <div className="block md:hidden h-6 w-[1px] bg-[#1f2128] mx-0.5" />
 
       {/* Smart & Watermark Features */}
       <div className="flex flex-row md:flex-col items-center space-x-1 md:space-x-0 md:space-y-1">
@@ -225,12 +235,12 @@ export const Toolbar: React.FC = () => {
           <Crop className="w-4.5 h-4.5" />
         </button>
 
-        {/* Image Adjustments */}
+        {/* Options / Settings Drawer Toggle for Mobile */}
         <button
-          onClick={() => handleToolClick('adjust')}
-          title="Adjustments"
+          onClick={() => setIsMobilePanelOpen(!isMobilePanelOpen)}
+          title="Edit Options & Settings"
           className={`min-w-[44px] min-h-[44px] w-10 h-10 flex items-center justify-center transition-all ${
-            activeTool === 'adjust'
+            isMobilePanelOpen
               ? 'bg-white text-zinc-950 shadow-sm'
               : 'text-zinc-400 hover:text-zinc-200 hover:bg-[#1a1c22]'
           }`}
