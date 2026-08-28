@@ -60,6 +60,7 @@ export const CanvasWorkspace: React.FC = () => {
   const [tempShape, setTempShape] = useState<Partial<RedactionLayer> | null>(null);
   const [cursorStyle, setCursorStyle] = useState<string>('default');
   const [isSpacePressed, setIsSpacePressed] = useState<boolean>(false);
+  const [touchDistance, setTouchDistance] = useState<number | null>(null);
 
   // Convert client viewport coordinates to native image pixel coordinates
   const clientToImageCoords = useCallback(
@@ -262,44 +263,40 @@ export const CanvasWorkspace: React.FC = () => {
 
   const getSelectedLayer = () => redactions.find((l) => l.id === selectedLayerId);
 
-  // Mouse Down Handler
-  const handleMouseDown = (e: React.MouseEvent) => {
+  // Common Pointer/Touch Down logic
+  const handleStart = (clientX: number, clientY: number, isMiddleButton = false) => {
     if (!originalImage) return;
 
-    // Pan with spacebar or middle click
-    if (isSpacePressed || e.button === 1) {
+    if (isSpacePressed || isMiddleButton) {
       setDragState({
         type: 'pan',
-        startX: e.clientX - pan.x,
-        startY: e.clientY - pan.y,
+        startX: clientX - pan.x,
+        startY: clientY - pan.y,
       });
       return;
     }
 
-    // Split view divider drag
     if (showBeforeAfter && canvasRef.current) {
-      const coords = clientToImageCoords(e.clientX, e.clientY);
+      const coords = clientToImageCoords(clientX, clientY);
       if (coords) {
         const splitX = originalImage.naturalWidth * beforeAfterSplit;
         if (Math.abs(coords.x - splitX) < 25) {
           setDragState({
             type: 'split',
-            startX: e.clientX,
-            startY: e.clientY,
+            startX: clientX,
+            startY: clientY,
           });
           return;
         }
       }
     }
 
-    const coords = clientToImageCoords(e.clientX, e.clientY);
+    const coords = clientToImageCoords(clientX, clientY);
     if (!coords) return;
 
-    // Selection / Move / Resize
     if (activeTool === 'select') {
       const selected = getSelectedLayer();
       if (selected) {
-        // Check resize handles
         const handle = getHandleUnderCursor(coords.x, coords.y, selected);
         if (handle) {
           setDragState({
@@ -315,7 +312,6 @@ export const CanvasWorkspace: React.FC = () => {
           return;
         }
 
-        // Check if inside selected layer box
         if (
           coords.x >= selected.x &&
           coords.x <= selected.x + selected.width &&
@@ -333,7 +329,6 @@ export const CanvasWorkspace: React.FC = () => {
         }
       }
 
-      // Check hit on other redactions
       const hitLayer = [...redactions].reverse().find((l) => {
         if (!l.visible) return false;
         return (
@@ -360,7 +355,6 @@ export const CanvasWorkspace: React.FC = () => {
       return;
     }
 
-    // Crop Tool Drag
     if (activeTool === 'crop') {
       setDragState({
         type: 'crop',
@@ -370,7 +364,6 @@ export const CanvasWorkspace: React.FC = () => {
       return;
     }
 
-    // Draw Shape or Brush
     if (
       activeTool === 'rectangle' ||
       activeTool === 'square' ||
@@ -419,31 +412,28 @@ export const CanvasWorkspace: React.FC = () => {
     }
   };
 
-  // Mouse Move Handler
-  const handleMouseMove = (e: React.MouseEvent) => {
+  // Common Pointer/Touch Move logic
+  const handleMove = (clientX: number, clientY: number) => {
     if (!originalImage) return;
 
-    // Pan
     if (dragState?.type === 'pan') {
       setPan({
-        x: e.clientX - dragState.startX,
-        y: e.clientY - dragState.startY,
+        x: clientX - dragState.startX,
+        y: clientY - dragState.startY,
       });
       return;
     }
 
-    // Split Divider
     if (dragState?.type === 'split' && canvasRef.current) {
       const rect = canvasRef.current.getBoundingClientRect();
-      const fraction = Math.max(0.05, Math.min(0.95, (e.clientX - rect.left) / rect.width));
+      const fraction = Math.max(0.05, Math.min(0.95, (clientX - rect.left) / rect.width));
       setBeforeAfterSplit(fraction);
       return;
     }
 
-    const coords = clientToImageCoords(e.clientX, e.clientY);
+    const coords = clientToImageCoords(clientX, clientY);
     if (!coords) return;
 
-    // Drawing
     if (dragState?.type === 'draw') {
       if (activeTool === 'brush') {
         const nextPoints = [...(dragState.points || []), coords];
@@ -469,7 +459,6 @@ export const CanvasWorkspace: React.FC = () => {
       return;
     }
 
-    // Moving selected layer
     if (dragState?.type === 'move' && selectedLayerId) {
       const dx = coords.x - dragState.startX;
       const dy = coords.y - dragState.startY;
@@ -479,7 +468,6 @@ export const CanvasWorkspace: React.FC = () => {
       return;
     }
 
-    // Resizing selected layer
     if (dragState?.type === 'resize' && selectedLayerId && dragState.handle) {
       const dx = coords.x - dragState.startX;
       const dy = coords.y - dragState.startY;
@@ -510,7 +498,6 @@ export const CanvasWorkspace: React.FC = () => {
       return;
     }
 
-    // Crop drag
     if (dragState?.type === 'crop') {
       const dx = coords.x - dragState.startX;
       const dy = coords.y - dragState.startY;
@@ -522,7 +509,6 @@ export const CanvasWorkspace: React.FC = () => {
       return;
     }
 
-    // Hover Cursors
     if (isSpacePressed) {
       setCursorStyle('grab');
     } else if (activeTool === 'select') {
@@ -551,8 +537,8 @@ export const CanvasWorkspace: React.FC = () => {
     }
   };
 
-  // Mouse Up Handler
-  const handleMouseUp = () => {
+  // End drag/touch
+  const handleEnd = () => {
     if (dragState?.type === 'draw') {
       if (activeTool === 'brush' && tempShape?.points && tempShape.points.length > 1) {
         addRedaction({
@@ -594,10 +580,39 @@ export const CanvasWorkspace: React.FC = () => {
     }
 
     setDragState(null);
+    setTouchDistance(null);
+  };
+
+  // Touch Event Listeners for Mobile Android & iOS
+  const handleTouchStart = (e: React.TouchEvent) => {
+    if (e.touches.length === 2) {
+      // Pinch to Zoom
+      const dist = Math.hypot(
+        e.touches[0].clientX - e.touches[1].clientX,
+        e.touches[0].clientY - e.touches[1].clientY
+      );
+      setTouchDistance(dist);
+    } else if (e.touches.length === 1) {
+      handleStart(e.touches[0].clientX, e.touches[0].clientY);
+    }
+  };
+
+  const handleTouchMove = (e: React.TouchEvent) => {
+    if (e.touches.length === 2 && touchDistance !== null) {
+      const dist = Math.hypot(
+        e.touches[0].clientX - e.touches[1].clientX,
+        e.touches[0].clientY - e.touches[1].clientY
+      );
+      const factor = dist / touchDistance;
+      setZoom((prev) => Math.max(0.2, Math.min(4, +(prev * (factor > 1 ? 1.03 : 0.97)).toFixed(2))));
+      setTouchDistance(dist);
+    } else if (e.touches.length === 1) {
+      handleMove(e.touches[0].clientX, e.touches[0].clientY);
+    }
   };
 
   const getHandleUnderCursor = (x: number, y: number, layer: RedactionLayer): ResizeHandleType | null => {
-    const handleSize = 12 / zoom;
+    const handleSize = 14 / zoom;
     const { x: lx, y: ly, width: lw, height: lh } = layer;
 
     const handles: { type: ResizeHandleType; hx: number; hy: number }[] = [
@@ -625,19 +640,22 @@ export const CanvasWorkspace: React.FC = () => {
     <main
       ref={containerRef}
       onWheel={handleWheel}
-      onMouseDown={handleMouseDown}
-      onMouseMove={handleMouseMove}
-      onMouseUp={handleMouseUp}
-      onMouseLeave={handleMouseUp}
+      onMouseDown={(e) => handleStart(e.clientX, e.clientY, e.button === 1)}
+      onMouseMove={(e) => handleMove(e.clientX, e.clientY)}
+      onMouseUp={handleEnd}
+      onMouseLeave={handleEnd}
+      onTouchStart={handleTouchStart}
+      onTouchMove={handleTouchMove}
+      onTouchEnd={handleEnd}
       style={{ cursor: cursorStyle }}
-      className="flex-1 relative bg-[#090a0c] overflow-hidden flex items-center justify-center canvas-checkerboard select-none"
+      className="flex-1 w-full h-full relative bg-[#090a0c] overflow-hidden flex items-center justify-center canvas-checkerboard select-none touch-none"
     >
       {/* Before / After View Tag Indicator */}
       {showBeforeAfter && (
-        <div className="absolute top-4 left-6 z-20 flex items-center space-x-2.5 bg-[#121316] px-3.5 py-1.5 rounded-none border border-[#282a33] text-xs font-semibold">
-          <span className="text-zinc-400 font-mono text-[11px]">ORIGINAL</span>
+        <div className="absolute top-3 left-4 z-20 flex items-center space-x-2.5 bg-[#121316] px-3 py-1 border border-[#282a33] text-xs font-semibold shadow-lg">
+          <span className="text-zinc-400 font-mono text-[10px] sm:text-[11px]">ORIGINAL</span>
           <span className="text-zinc-600">/</span>
-          <span className="text-white font-mono text-[11px]">PROTECTED</span>
+          <span className="text-white font-mono text-[10px] sm:text-[11px]">PROTECTED</span>
         </div>
       )}
 
@@ -686,7 +704,7 @@ export const CanvasWorkspace: React.FC = () => {
               return (
                 <div
                   key={handle}
-                  className={`absolute w-3 h-3 bg-white border border-zinc-950 rounded-none shadow-sm pointer-events-auto ${posClass}`}
+                  className={`absolute w-3.5 h-3.5 bg-white border border-zinc-950 rounded-none shadow-sm pointer-events-auto ${posClass}`}
                   style={{ cursor: `${handle}-resize` }}
                 />
               );
@@ -697,7 +715,7 @@ export const CanvasWorkspace: React.FC = () => {
               style={{ pointerEvents: 'auto' }}
               className="absolute -top-8 left-0 flex items-center space-x-2 bg-[#121317] px-2 py-0.5 rounded-none border border-[#2b2d38]"
             >
-              <span className="text-[11px] font-bold font-syne text-zinc-200 capitalize">
+              <span className="text-[11px] font-bold font-syne text-zinc-200 capitalize truncate max-w-[120px]">
                 {selectedLayer.name} ({selectedLayer.style})
               </span>
               <button
@@ -705,8 +723,8 @@ export const CanvasWorkspace: React.FC = () => {
                   e.stopPropagation();
                   deleteRedaction(selectedLayer.id);
                 }}
-                title="Delete Redaction (Delete)"
-                className="p-0.5 text-zinc-400 hover:text-rose-400 rounded-none transition"
+                title="Delete Redaction"
+                className="p-1 text-zinc-400 hover:text-rose-400 transition min-w-[28px] min-h-[28px] flex items-center justify-center"
               >
                 <Trash2 className="w-3.5 h-3.5" />
               </button>

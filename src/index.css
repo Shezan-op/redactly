@@ -87,8 +87,14 @@ input[type="range"] {
   accent-color: #f4f4f5;
 }
 
-/* Sharp Precision Focus & Selection */
-*:focus-visible {
-  outline: 1px solid #ffffff;
-  outline-offset: 1px;
+/* Hide scrollbar for Chrome, Safari and Opera */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
 }
+
+/* Hide scrollbar for IE, Edge and Firefox */
+.no-scrollbar {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+}
+

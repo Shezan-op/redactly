@@ -4,7 +4,6 @@ import {
   Crop,
   EyeOff,
   Grid,
-  Image as ImageIcon,
   MousePointer2,
   Paintbrush,
   SlidersHorizontal,
@@ -46,13 +45,13 @@ export const Toolbar: React.FC = () => {
   };
 
   return (
-    <aside className="w-14 bg-[#0c0d10] border-r border-[#1f2128] flex flex-col items-center py-2.5 select-none z-20 shrink-0 overflow-y-auto">
+    <aside className="w-full md:w-14 bg-[#0c0d10] border-t md:border-t-0 md:border-r border-[#1f2128] flex flex-row md:flex-col items-center justify-between md:justify-start px-2 py-1.5 md:py-2.5 select-none z-20 shrink-0 overflow-x-auto md:overflow-y-auto no-scrollbar order-2 md:order-1 h-14 md:h-full">
       {/* Primary Selection */}
-      <div className="flex flex-col items-center space-y-1 w-full px-1.5">
+      <div className="flex flex-row md:flex-col items-center space-x-1 md:space-x-0 md:space-y-1">
         <button
           onClick={() => handleToolClick('select')}
           title="Select & Move (V)"
-          className={`w-10 h-10 rounded-none flex items-center justify-center transition-all ${
+          className={`min-w-[44px] min-h-[44px] w-10 h-10 flex items-center justify-center transition-all ${
             activeTool === 'select'
               ? 'bg-white text-zinc-950 shadow-sm'
               : 'text-zinc-400 hover:text-zinc-200 hover:bg-[#1a1c22]'
@@ -62,10 +61,11 @@ export const Toolbar: React.FC = () => {
         </button>
       </div>
 
-      <div className="w-6 h-[1px] bg-[#1f2128] my-2" />
+      <div className="hidden md:block w-6 h-[1px] bg-[#1f2128] my-1.5" />
+      <div className="block md:hidden h-6 w-[1px] bg-[#1f2128] mx-1" />
 
       {/* Redaction Shapes Section */}
-      <div className="flex flex-col items-center space-y-1 w-full px-1.5">
+      <div className="flex flex-row md:flex-col items-center space-x-1 md:space-x-0 md:space-y-1">
         {/* Rectangle */}
         <button
           onClick={() => {
@@ -73,14 +73,14 @@ export const Toolbar: React.FC = () => {
             setActiveTool('rectangle');
           }}
           title="Rectangle Redact (R)"
-          className={`w-10 h-10 rounded-none flex items-center justify-center transition-all relative ${
+          className={`min-w-[44px] min-h-[44px] w-10 h-10 flex items-center justify-center transition-all relative ${
             activeTool === 'rectangle' && redactionShape === 'rectangle'
               ? 'bg-white text-zinc-950 shadow-sm'
               : 'text-zinc-400 hover:text-zinc-200 hover:bg-[#1a1c22]'
           }`}
         >
           <Square className="w-4.5 h-4.5" />
-          <span className="absolute bottom-0.5 right-1 text-[7px] font-mono font-bold opacity-60">R</span>
+          <span className="hidden md:inline absolute bottom-0.5 right-1 text-[7px] font-mono font-bold opacity-60">R</span>
         </button>
 
         {/* Circle / Ellipse */}
@@ -90,14 +90,14 @@ export const Toolbar: React.FC = () => {
             setActiveTool('circle');
           }}
           title="Circle / Oval Redact (C)"
-          className={`w-10 h-10 rounded-none flex items-center justify-center transition-all relative ${
+          className={`min-w-[44px] min-h-[44px] w-10 h-10 flex items-center justify-center transition-all relative ${
             activeTool === 'circle' && redactionShape === 'circle'
               ? 'bg-white text-zinc-950 shadow-sm'
               : 'text-zinc-400 hover:text-zinc-200 hover:bg-[#1a1c22]'
           }`}
         >
           <Circle className="w-4.5 h-4.5" />
-          <span className="absolute bottom-0.5 right-1 text-[7px] font-mono font-bold opacity-60">C</span>
+          <span className="hidden md:inline absolute bottom-0.5 right-1 text-[7px] font-mono font-bold opacity-60">C</span>
         </button>
 
         {/* Freehand Brush */}
@@ -107,26 +107,27 @@ export const Toolbar: React.FC = () => {
             setActiveTool('brush');
           }}
           title="Freehand Brush Redact (B)"
-          className={`w-10 h-10 rounded-none flex items-center justify-center transition-all relative ${
+          className={`min-w-[44px] min-h-[44px] w-10 h-10 flex items-center justify-center transition-all relative ${
             activeTool === 'brush'
               ? 'bg-white text-zinc-950 shadow-sm'
               : 'text-zinc-400 hover:text-zinc-200 hover:bg-[#1a1c22]'
           }`}
         >
           <Paintbrush className="w-4.5 h-4.5" />
-          <span className="absolute bottom-0.5 right-1 text-[7px] font-mono font-bold opacity-60">B</span>
+          <span className="hidden md:inline absolute bottom-0.5 right-1 text-[7px] font-mono font-bold opacity-60">B</span>
         </button>
       </div>
 
-      <div className="w-6 h-[1px] bg-[#1f2128] my-2" />
+      <div className="hidden md:block w-6 h-[1px] bg-[#1f2128] my-1.5" />
+      <div className="block md:hidden h-6 w-[1px] bg-[#1f2128] mx-1" />
 
       {/* Redaction Styles Quick Select */}
-      <div className="flex flex-col items-center space-y-1 w-full px-1.5">
+      <div className="flex flex-row md:flex-col items-center space-x-1 md:space-x-0 md:space-y-1">
         {/* Blur Style */}
         <button
           onClick={() => setRedactionStyle('blur')}
           title="Blur Redaction Style (1)"
-          className={`w-10 h-10 rounded-none flex items-center justify-center transition-all ${
+          className={`min-w-[44px] min-h-[44px] w-10 h-10 flex items-center justify-center transition-all ${
             redactionStyle === 'blur'
               ? 'bg-[#22242b] text-zinc-100 ring-1 ring-zinc-500'
               : 'text-zinc-500 hover:text-zinc-300 hover:bg-[#16171b]'
@@ -139,7 +140,7 @@ export const Toolbar: React.FC = () => {
         <button
           onClick={() => setRedactionStyle('pixelate')}
           title="Pixelate / Mosaic Style (2)"
-          className={`w-10 h-10 rounded-none flex items-center justify-center transition-all ${
+          className={`min-w-[44px] min-h-[44px] w-10 h-10 flex items-center justify-center transition-all ${
             redactionStyle === 'pixelate'
               ? 'bg-[#22242b] text-zinc-100 ring-1 ring-zinc-500'
               : 'text-zinc-500 hover:text-zinc-300 hover:bg-[#16171b]'
@@ -152,7 +153,7 @@ export const Toolbar: React.FC = () => {
         <button
           onClick={() => setRedactionStyle('blackout')}
           title="Solid Blackout Style (3)"
-          className={`w-10 h-10 rounded-none flex items-center justify-center transition-all ${
+          className={`min-w-[44px] min-h-[44px] w-10 h-10 flex items-center justify-center transition-all ${
             redactionStyle === 'blackout'
               ? 'bg-[#22242b] text-zinc-100 ring-1 ring-zinc-500'
               : 'text-zinc-500 hover:text-zinc-300 hover:bg-[#16171b]'
@@ -162,15 +163,16 @@ export const Toolbar: React.FC = () => {
         </button>
       </div>
 
-      <div className="w-6 h-[1px] bg-[#1f2128] my-2" />
+      <div className="hidden md:block w-6 h-[1px] bg-[#1f2128] my-1.5" />
+      <div className="block md:hidden h-6 w-[1px] bg-[#1f2128] mx-1" />
 
-      {/* Smart & Privacy Features */}
-      <div className="flex flex-col items-center space-y-1 w-full px-1.5">
+      {/* Smart & Watermark Features */}
+      <div className="flex flex-row md:flex-col items-center space-x-1 md:space-x-0 md:space-y-1">
         {/* Smart Redact */}
         <button
           onClick={() => handleToolClick('smart_redact')}
-          title="Smart Redact (Auto-detect sensitive info)"
-          className={`w-10 h-10 rounded-none flex items-center justify-center transition-all relative ${
+          title="Smart Redact"
+          className={`min-w-[44px] min-h-[44px] w-10 h-10 flex items-center justify-center transition-all relative ${
             isDetecting
               ? 'animate-pulse bg-amber-950/40 text-amber-300 border border-amber-500/50'
               : 'text-zinc-400 hover:text-amber-300 hover:bg-[#1a1c22]'
@@ -186,8 +188,8 @@ export const Toolbar: React.FC = () => {
             setRedactionShape('ellipse');
             setRedactionStyle('blur');
           }}
-          title="Face Privacy / Hide Faces"
-          className={`w-10 h-10 rounded-none flex items-center justify-center transition-all ${
+          title="Face Privacy"
+          className={`min-w-[44px] min-h-[44px] w-10 h-10 flex items-center justify-center transition-all ${
             activeTool === 'face_hide'
               ? 'bg-white text-zinc-950 shadow-sm'
               : 'text-zinc-400 hover:text-zinc-200 hover:bg-[#1a1c22]'
@@ -195,44 +197,26 @@ export const Toolbar: React.FC = () => {
         >
           <UserX className="w-4.5 h-4.5" />
         </button>
-      </div>
 
-      <div className="w-6 h-[1px] bg-[#1f2128] my-2" />
-
-      {/* Watermarks & Tools */}
-      <div className="flex flex-col items-center space-y-1 w-full px-1.5">
         {/* Text Watermark */}
         <button
           onClick={() => handleToolClick('watermark')}
-          title="Text Watermark (W)"
-          className={`w-10 h-10 rounded-none flex items-center justify-center transition-all relative ${
+          title="Watermark (W)"
+          className={`min-w-[44px] min-h-[44px] w-10 h-10 flex items-center justify-center transition-all relative ${
             activeTool === 'watermark'
               ? 'bg-white text-zinc-950 shadow-sm'
               : 'text-zinc-400 hover:text-zinc-200 hover:bg-[#1a1c22]'
           }`}
         >
           <Type className="w-4.5 h-4.5" />
-          <span className="absolute bottom-0.5 right-1 text-[7px] font-mono font-bold opacity-60">W</span>
-        </button>
-
-        {/* Logo Watermark */}
-        <button
-          onClick={() => handleToolClick('logo')}
-          title="Logo Watermark"
-          className={`w-10 h-10 rounded-none flex items-center justify-center transition-all ${
-            activeTool === 'logo'
-              ? 'bg-white text-zinc-950 shadow-sm'
-              : 'text-zinc-400 hover:text-zinc-200 hover:bg-[#1a1c22]'
-          }`}
-        >
-          <ImageIcon className="w-4.5 h-4.5" />
+          <span className="hidden md:inline absolute bottom-0.5 right-1 text-[7px] font-mono font-bold opacity-60">W</span>
         </button>
 
         {/* Crop Tool */}
         <button
           onClick={() => handleToolClick('crop')}
-          title="Crop Image"
-          className={`w-10 h-10 rounded-none flex items-center justify-center transition-all ${
+          title="Crop"
+          className={`min-w-[44px] min-h-[44px] w-10 h-10 flex items-center justify-center transition-all ${
             activeTool === 'crop'
               ? 'bg-white text-zinc-950 shadow-sm'
               : 'text-zinc-400 hover:text-zinc-200 hover:bg-[#1a1c22]'
@@ -244,8 +228,8 @@ export const Toolbar: React.FC = () => {
         {/* Image Adjustments */}
         <button
           onClick={() => handleToolClick('adjust')}
-          title="Image Adjustments (Brightness, Contrast, Sharpness)"
-          className={`w-10 h-10 rounded-none flex items-center justify-center transition-all ${
+          title="Adjustments"
+          className={`min-w-[44px] min-h-[44px] w-10 h-10 flex items-center justify-center transition-all ${
             activeTool === 'adjust'
               ? 'bg-white text-zinc-950 shadow-sm'
               : 'text-zinc-400 hover:text-zinc-200 hover:bg-[#1a1c22]'

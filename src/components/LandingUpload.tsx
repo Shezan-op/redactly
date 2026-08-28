@@ -78,33 +78,33 @@ export const LandingUpload: React.FC = () => {
   };
 
   return (
-    <div className="flex-1 overflow-y-auto flex flex-col items-center justify-center p-6 bg-[#090a0c] text-zinc-100">
-      <div className="max-w-3xl w-full flex flex-col items-center text-center space-y-7 my-auto py-8">
+    <div className="flex-1 w-full overflow-y-auto bg-[#090a0c] text-zinc-100 flex flex-col items-center justify-start px-4 py-6 sm:py-10">
+      <div className="max-w-3xl w-full flex flex-col items-center text-center space-y-5 sm:space-y-6 my-auto">
         {/* Top Privacy Tag */}
-        <div className="inline-flex items-center space-x-2 px-3 py-1 rounded-none bg-[#141519] border border-[#272932] text-zinc-300 text-xs font-mono font-medium">
-          <Lock className="w-3.5 h-3.5 text-zinc-400" />
-          <span>100% CLIENT-SIDE PROCESSING · ZERO SERVER UPLOADS</span>
+        <div className="inline-flex items-center space-x-2 px-3 py-1 bg-[#141519] border border-[#272932] text-zinc-300 text-[11px] sm:text-xs font-mono font-medium tracking-wide">
+          <Lock className="w-3.5 h-3.5 text-zinc-400 shrink-0" />
+          <span>100% CLIENT-SIDE · ZERO SERVER UPLOADS</span>
         </div>
 
-        {/* Hero Headlines */}
-        <div className="space-y-3 max-w-2xl">
-          <h1 className="text-3xl sm:text-4xl md:text-5xl font-extrabold font-syne tracking-tight text-white leading-tight">
-            Protect your screenshots <br className="hidden sm:inline" />
+        {/* Hero Headlines (Always visible, responsive clamp) */}
+        <div className="space-y-2.5 max-w-2xl px-2">
+          <h1 className="text-2xl sm:text-4xl md:text-5xl font-extrabold font-syne tracking-tight text-white leading-tight">
+            Protect your screenshots <br />
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-zinc-100 via-zinc-300 to-zinc-500">
               before you share them.
             </span>
           </h1>
-          <p className="text-sm sm:text-base text-zinc-400 font-normal leading-relaxed">
+          <p className="text-xs sm:text-sm md:text-base text-zinc-400 font-normal leading-relaxed max-w-xl mx-auto">
             Permanently redact sensitive details, blur private data, and stamp custom watermarks in seconds.
           </p>
         </div>
 
-        {/* Primary Drag & Drop Upload Zone (Sharp Architectural Border) */}
+        {/* Primary Drag & Drop Upload Zone */}
         <div
           onDragOver={handleDragOver}
           onDragLeave={handleDragLeave}
           onDrop={handleDrop}
-          className={`w-full max-w-xl p-8 sm:p-10 rounded-none border-2 border-dashed transition-all duration-150 cursor-pointer flex flex-col items-center justify-center ${
+          className={`w-full max-w-xl p-6 sm:p-9 border-2 border-dashed transition-all duration-150 cursor-pointer flex flex-col items-center justify-center ${
             isDragging
               ? 'border-white bg-[#1a1b22]'
               : 'border-[#272932] bg-[#121317] hover:bg-[#181920] hover:border-zinc-500 shadow-xl'
@@ -119,60 +119,60 @@ export const LandingUpload: React.FC = () => {
             className="hidden"
           />
 
-          <div className="w-14 h-14 rounded-none bg-gradient-to-b from-zinc-700 to-zinc-900 border border-zinc-700 flex items-center justify-center mb-4 text-white shadow-sm">
-            <Upload className="w-6 h-6" />
+          <div className="w-12 h-12 sm:w-14 sm:h-14 bg-gradient-to-b from-zinc-700 to-zinc-900 border border-zinc-700 flex items-center justify-center mb-3 text-white shadow-sm">
+            <Upload className="w-5 h-5 sm:w-6 sm:h-6" />
           </div>
 
-          <p className="text-base font-bold font-syne text-zinc-100 mb-1">
+          <p className="text-sm sm:text-base font-bold font-syne text-zinc-100 mb-1">
             Drop an image here
           </p>
-          <p className="text-xs text-zinc-400 mb-4">
-            or <span className="text-white font-semibold underline underline-offset-2 hover:text-zinc-200">choose an image</span> from your computer
+          <p className="text-xs text-zinc-400 mb-3 sm:mb-4">
+            or <span className="text-white font-semibold underline underline-offset-2 hover:text-zinc-200">choose an image</span> from your computer / phone
           </p>
 
-          <div className="flex items-center space-x-2 text-[11px] font-mono text-zinc-400 bg-[#090a0c] px-3.5 py-1.5 rounded-none border border-[#23252c]">
+          <div className="flex flex-wrap items-center justify-center gap-1.5 text-[10px] sm:text-[11px] font-mono text-zinc-400 bg-[#090a0c] px-3 py-1.5 border border-[#23252c]">
             <span>PNG</span>
             <span>·</span>
             <span>JPG / JPEG</span>
             <span>·</span>
             <span>WebP</span>
-            <span>·</span>
-            <span>Paste (Ctrl+V)</span>
+            <span className="hidden sm:inline">·</span>
+            <span className="hidden sm:inline">Paste (Ctrl+V)</span>
           </div>
         </div>
 
         {/* Capability Labels */}
-        <div className="flex flex-wrap items-center justify-center gap-1.5 text-xs text-zinc-300 font-medium">
-          <span className="flex items-center space-x-1.5 bg-[#141519] border border-[#262830] px-3 py-1 rounded-none font-mono text-[11px]">
-            <span className="w-1.5 h-1.5 bg-zinc-300 rounded-none" />
+        <div className="flex flex-wrap items-center justify-center gap-1.5 text-xs text-zinc-300 font-medium px-2">
+          <span className="flex items-center space-x-1.5 bg-[#141519] border border-[#262830] px-2.5 py-1 font-mono text-[10px] sm:text-[11px]">
+            <span className="w-1.5 h-1.5 bg-zinc-300" />
             <span>REDACT</span>
           </span>
-          <span className="flex items-center space-x-1.5 bg-[#141519] border border-[#262830] px-3 py-1 rounded-none font-mono text-[11px]">
-            <span className="w-1.5 h-1.5 bg-zinc-400 rounded-none" />
+          <span className="flex items-center space-x-1.5 bg-[#141519] border border-[#262830] px-2.5 py-1 font-mono text-[10px] sm:text-[11px]">
+            <span className="w-1.5 h-1.5 bg-zinc-400" />
             <span>BLUR</span>
           </span>
-          <span className="flex items-center space-x-1.5 bg-[#141519] border border-[#262830] px-3 py-1 rounded-none font-mono text-[11px]">
-            <span className="w-1.5 h-1.5 bg-zinc-300 rounded-none" />
+          <span className="flex items-center space-x-1.5 bg-[#141519] border border-[#262830] px-2.5 py-1 font-mono text-[10px] sm:text-[11px]">
+            <span className="w-1.5 h-1.5 bg-zinc-300" />
             <span>PIXELATE</span>
           </span>
-          <span className="flex items-center space-x-1.5 bg-[#141519] border border-[#262830] px-3 py-1 rounded-none font-mono text-[11px]">
-            <span className="w-1.5 h-1.5 bg-amber-400 rounded-none" />
+          <span className="flex items-center space-x-1.5 bg-[#141519] border border-[#262830] px-2.5 py-1 font-mono text-[10px] sm:text-[11px]">
+            <span className="w-1.5 h-1.5 bg-amber-400" />
             <span>WATERMARK</span>
           </span>
-          <span className="flex items-center space-x-1.5 bg-[#141519] border border-[#262830] px-3 py-1 rounded-none font-mono text-[11px]">
-            <span className="w-1.5 h-1.5 bg-emerald-400 rounded-none" />
-            <span>PERMANENT FLATTENED EXPORT</span>
+          <span className="flex items-center space-x-1.5 bg-[#141519] border border-[#262830] px-2.5 py-1 font-mono text-[10px] sm:text-[11px]">
+            <span className="w-1.5 h-1.5 bg-emerald-400" />
+            <span>EXPORT</span>
           </span>
         </div>
 
         {/* Demo Samples Section */}
-        <div className="w-full max-w-xl pt-2 border-t border-[#1f2128]">
-          <div className="flex items-center justify-between mb-3 text-xs">
-            <span className="font-bold font-syne text-zinc-400 flex items-center space-x-1.5">
-              <Sparkles className="w-3.5 h-3.5 text-amber-400" />
+        <div className="w-full max-w-xl pt-3 border-t border-[#1f2128]">
+          <div className="flex items-center justify-between mb-2.5 text-xs">
+            <span className="font-bold font-syne text-zinc-400 flex items-center space-x-1.5 text-[11px] sm:text-xs">
+              <Sparkles className="w-3.5 h-3.5 text-amber-400 shrink-0" />
               <span>TRY WITH A SAMPLE SCREENSHOT:</span>
             </span>
-            {isLoadingSample && <span className="text-zinc-200 font-semibold font-mono animate-pulse">Loading sample...</span>}
+            {isLoadingSample && <span className="text-zinc-200 font-semibold font-mono animate-pulse text-[11px]">Loading sample...</span>}
           </div>
 
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
@@ -186,20 +186,20 @@ export const LandingUpload: React.FC = () => {
                 key={type}
                 disabled={isLoadingSample}
                 onClick={() => handleSampleClick(type, label)}
-                className="p-3 rounded-none bg-[#141519] hover:bg-[#1c1e25] border border-[#23252b] hover:border-zinc-500 flex flex-col items-center text-center transition group active:scale-95 disabled:opacity-50 shadow-sm"
+                className="p-2.5 sm:p-3 bg-[#141519] hover:bg-[#1c1e25] border border-[#23252b] hover:border-zinc-500 flex flex-col items-center text-center transition group active:scale-95 disabled:opacity-50 min-h-[44px]"
               >
-                <div className="w-8 h-8 rounded-none bg-[#202229] group-hover:bg-white group-hover:text-zinc-950 text-zinc-300 flex items-center justify-center mb-1.5 transition">
-                  <Icon className="w-4 h-4" />
+                <div className="w-7 h-7 sm:w-8 sm:h-8 bg-[#202229] group-hover:bg-white group-hover:text-zinc-950 text-zinc-300 flex items-center justify-center mb-1 transition">
+                  <Icon className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
                 </div>
-                <span className="font-bold font-syne text-xs text-zinc-200 group-hover:text-white">{label}</span>
-                <span className="text-[10px] text-zinc-500">{desc}</span>
+                <span className="font-bold font-syne text-[11px] sm:text-xs text-zinc-200 group-hover:text-white">{label}</span>
+                <span className="text-[9px] sm:text-[10px] text-zinc-500">{desc}</span>
               </button>
             ))}
           </div>
         </div>
 
         {/* Footer */}
-        <div className="flex items-center space-x-4 text-xs text-zinc-500 pt-2 font-mono">
+        <div className="flex flex-wrap items-center justify-center gap-2 sm:gap-4 text-[11px] text-zinc-500 pt-1 font-mono">
           <span className="font-bold font-syne text-zinc-400">Redactly</span>
           <span>·</span>
           <span>100% Client-Side</span>
@@ -210,7 +210,7 @@ export const LandingUpload: React.FC = () => {
             rel="noopener noreferrer"
             className="text-zinc-300 hover:text-white underline underline-offset-2 transition"
           >
-            GitHub Repository
+            GitHub
           </a>
         </div>
       </div>
