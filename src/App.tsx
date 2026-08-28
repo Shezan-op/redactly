@@ -14,7 +14,7 @@ const MainApp: React.FC = () => {
   const { originalImage } = useEditor();
 
   return (
-    <div className="h-screen w-screen flex flex-col overflow-hidden bg-slate-950 text-slate-100 font-sans">
+    <div className="h-screen w-screen flex flex-col overflow-hidden bg-[#090a0c] text-zinc-100 font-sans">
       {/* Top Application Header */}
       <Header />
 

@@ -9,6 +9,8 @@
     font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
     user-select: none;
     -webkit-user-select: none;
+    background-color: #090a0c;
+    color: #f4f4f5;
   }
 
   input, textarea {
@@ -17,67 +19,72 @@
   }
 }
 
-/* Custom transparent checkerboard pattern for canvas */
+/* Premium Charcoal Transparent Checkerboard Pattern */
 .canvas-checkerboard {
-  background-color: #0b0f17;
+  background-color: #090a0c;
   background-image: 
-    linear-gradient(45deg, #141b26 25%, transparent 25%), 
-    linear-gradient(-45deg, #141b26 25%, transparent 25%), 
-    linear-gradient(45deg, transparent 75%, #141b26 75%), 
-    linear-gradient(-45deg, transparent 75%, #141b26 75%);
+    linear-gradient(45deg, #111215 25%, transparent 25%), 
+    linear-gradient(-45deg, #111215 25%, transparent 25%), 
+    linear-gradient(45deg, transparent 75%, #111215 75%), 
+    linear-gradient(-45deg, transparent 75%, #111215 75%);
   background-size: 20px 20px;
   background-position: 0 0, 0 10px, 10px -10px, -10px 0px;
 }
 
-/* Glassmorphic panels */
-.glass-panel {
-  background: rgba(15, 23, 42, 0.75);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
+/* Premium Obsidian Glassmorphism Panels */
+.charcoal-panel {
+  background: rgba(18, 19, 23, 0.88);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
   border: 1px solid rgba(255, 255, 255, 0.08);
 }
 
-.glass-panel-subtle {
-  background: rgba(15, 23, 42, 0.45);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
+.charcoal-panel-subtle {
+  background: rgba(18, 19, 23, 0.5);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
   border: 1px solid rgba(255, 255, 255, 0.05);
 }
 
-/* Custom sleek dark scrollbar */
+.charcoal-card {
+  background: #141519;
+  border: 1px solid #23252b;
+}
+
+/* Sleek Charcoal Scrollbar */
 ::-webkit-scrollbar {
-  width: 6px;
-  height: 6px;
+  width: 5px;
+  height: 5px;
 }
 
 ::-webkit-scrollbar-track {
-  background: rgba(15, 23, 42, 0.6);
+  background: #0d0e11;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: rgba(100, 116, 139, 0.4);
+  background: #272930;
   border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: rgba(148, 163, 184, 0.6);
+  background: #3f424e;
 }
 
-/* Custom range inputs */
+/* Custom Titanium Range Sliders */
 input[type="range"] {
-  accent-color: #6366f1;
+  accent-color: #f4f4f5;
 }
 
-/* Animations */
-@keyframes pulseGlow {
+/* Metallic Shimmer & Glow */
+@keyframes subtleGlow {
   0%, 100% {
-    box-shadow: 0 0 15px rgba(99, 102, 241, 0.2);
+    box-shadow: 0 0 20px rgba(255, 255, 255, 0.03);
   }
   50% {
-    box-shadow: 0 0 25px rgba(99, 102, 241, 0.4);
+    box-shadow: 0 0 35px rgba(255, 255, 255, 0.08);
   }
 }
 
-.pulse-glow {
-  animation: pulseGlow 3s infinite ease-in-out;
+.charcoal-glow {
+  animation: subtleGlow 4s infinite ease-in-out;
 }

@@ -149,20 +149,20 @@ export const CanvasWorkspace: React.FC = () => {
       ctx.save();
       ctx.strokeStyle = '#ffffff';
       ctx.lineWidth = 3;
-      ctx.shadowColor = 'rgba(0, 0, 0, 0.7)';
-      ctx.shadowBlur = 8;
+      ctx.shadowColor = 'rgba(0, 0, 0, 0.8)';
+      ctx.shadowBlur = 10;
       ctx.beginPath();
       ctx.moveTo(splitX, 0);
       ctx.lineTo(splitX, imgH);
       ctx.stroke();
 
-      // Divider Handle Circle
-      ctx.fillStyle = '#6366f1';
+      // Divider Handle Circle (Titanium Style)
+      ctx.fillStyle = '#ffffff';
       ctx.beginPath();
-      ctx.arc(splitX, imgH / 2, 18, 0, Math.PI * 2);
+      ctx.arc(splitX, imgH / 2, 16, 0, Math.PI * 2);
       ctx.fill();
       ctx.lineWidth = 2;
-      ctx.strokeStyle = '#ffffff';
+      ctx.strokeStyle = '#090a0c';
       ctx.stroke();
       ctx.restore();
     }
@@ -176,19 +176,19 @@ export const CanvasWorkspace: React.FC = () => {
 
       ctx.save();
       // Dim outside
-      ctx.fillStyle = 'rgba(0, 0, 0, 0.6)';
+      ctx.fillStyle = 'rgba(0, 0, 0, 0.7)';
       ctx.fillRect(0, 0, imgW, cy);
       ctx.fillRect(0, cy + ch, imgW, imgH - (cy + ch));
       ctx.fillRect(0, cy, cx, ch);
       ctx.fillRect(cx + cw, cy, imgW - (cx + cw), ch);
 
       // Crop outline
-      ctx.strokeStyle = '#6366f1';
+      ctx.strokeStyle = '#ffffff';
       ctx.lineWidth = 2;
       ctx.strokeRect(cx, cy, cw, ch);
 
       // Rule of thirds grid
-      ctx.strokeStyle = 'rgba(255, 255, 255, 0.3)';
+      ctx.strokeStyle = 'rgba(255, 255, 255, 0.25)';
       ctx.lineWidth = 1;
       ctx.beginPath();
       ctx.moveTo(cx + cw / 3, cy);
@@ -257,7 +257,6 @@ export const CanvasWorkspace: React.FC = () => {
         return next;
       });
     } else {
-      // Pan with trackpad / scroll
       setPan((prev) => ({
         x: prev.x - e.deltaX,
         y: prev.y - e.deltaY,
@@ -265,7 +264,6 @@ export const CanvasWorkspace: React.FC = () => {
     }
   };
 
-  // Check if a point hits an object or handle
   const getSelectedLayer = () => redactions.find((l) => l.id === selectedLayerId);
 
   // Mouse Down Handler
@@ -339,7 +337,7 @@ export const CanvasWorkspace: React.FC = () => {
         }
       }
 
-      // Check hit on other redactions (reverse order so top layer is picked first)
+      // Check hit on other redactions
       const hitLayer = [...redactions].reverse().find((l) => {
         if (!l.visible) return false;
         return (
@@ -464,7 +462,6 @@ export const CanvasWorkspace: React.FC = () => {
         let width = Math.abs(dx);
         let height = Math.abs(dy);
 
-        // Lock 1:1 if square or circle
         if (redactionShape === 'square' || redactionShape === 'circle') {
           const side = Math.max(width, height);
           width = side;
@@ -597,14 +594,12 @@ export const CanvasWorkspace: React.FC = () => {
         });
       }
       setTempShape(null);
-      // Switch back to select tool for smooth handle editing
       setActiveTool('select');
     }
 
     setDragState(null);
   };
 
-  // Calculate if cursor is over 8-point handles
   const getHandleUnderCursor = (x: number, y: number, layer: RedactionLayer): ResizeHandleType | null => {
     const handleSize = 12 / zoom;
     const { x: lx, y: ly, width: lw, height: lh } = layer;
@@ -639,14 +634,14 @@ export const CanvasWorkspace: React.FC = () => {
       onMouseUp={handleMouseUp}
       onMouseLeave={handleMouseUp}
       style={{ cursor: cursorStyle }}
-      className="flex-1 relative bg-slate-950 overflow-hidden flex items-center justify-center canvas-checkerboard select-none"
+      className="flex-1 relative bg-[#090a0c] overflow-hidden flex items-center justify-center canvas-checkerboard select-none"
     >
       {/* Before / After View Tag Indicator */}
       {showBeforeAfter && (
-        <div className="absolute top-4 left-6 z-20 flex items-center space-x-2 bg-slate-900/90 backdrop-blur-md px-3 py-1.5 rounded-full border border-slate-700/80 shadow-lg text-xs font-semibold">
-          <span className="text-amber-400">ORIGINAL</span>
-          <span className="text-slate-500">|</span>
-          <span className="text-indigo-400">PROTECTED</span>
+        <div className="absolute top-4 left-6 z-20 flex items-center space-x-2.5 bg-[#121316]/95 backdrop-blur-md px-3.5 py-1.5 rounded-full border border-[#282a33] shadow-2xl text-xs font-semibold">
+          <span className="text-zinc-400 font-mono text-[11px]">ORIGINAL</span>
+          <span className="text-zinc-600">/</span>
+          <span className="text-white font-mono text-[11px]">PROTECTED</span>
         </div>
       )}
 
@@ -657,7 +652,7 @@ export const CanvasWorkspace: React.FC = () => {
           transformOrigin: 'center center',
           transition: dragState ? 'none' : 'transform 0.08s ease-out',
         }}
-        className="relative shadow-2xl rounded-sm ring-1 ring-slate-800"
+        className="relative shadow-2xl rounded-sm ring-1 ring-zinc-800/80"
       >
         <canvas
           ref={canvasRef}
@@ -676,7 +671,7 @@ export const CanvasWorkspace: React.FC = () => {
               height: `${selectedLayer.height}px`,
               pointerEvents: 'none',
             }}
-            className="ring-2 ring-indigo-500 ring-offset-1 ring-offset-slate-950/50"
+            className="ring-2 ring-white ring-offset-1 ring-offset-black/70"
           >
             {/* 8 Resize Corner Dots */}
             {(['nw', 'n', 'ne', 'e', 'se', 's', 'sw', 'w'] as ResizeHandleType[]).map((handle) => {
@@ -695,7 +690,7 @@ export const CanvasWorkspace: React.FC = () => {
               return (
                 <div
                   key={handle}
-                  className={`absolute w-3 h-3 bg-white border-2 border-indigo-600 rounded-sm shadow-md pointer-events-auto ${posClass}`}
+                  className={`absolute w-3 h-3 bg-white border-2 border-zinc-950 rounded-sm shadow-md pointer-events-auto ${posClass}`}
                   style={{ cursor: `${handle}-resize` }}
                 />
               );
@@ -704,9 +699,9 @@ export const CanvasWorkspace: React.FC = () => {
             {/* Quick Delete & Layer Tag Badge */}
             <div
               style={{ pointerEvents: 'auto' }}
-              className="absolute -top-9 left-0 flex items-center space-x-1.5 bg-slate-900/95 backdrop-blur-md px-2 py-1 rounded-md border border-slate-700 shadow-xl"
+              className="absolute -top-9 left-0 flex items-center space-x-2 bg-[#121317]/95 backdrop-blur-md px-2.5 py-1 rounded-md border border-[#2b2d38] shadow-2xl"
             >
-              <span className="text-[11px] font-medium text-slate-200 capitalize">
+              <span className="text-[11px] font-semibold text-zinc-200 capitalize">
                 {selectedLayer.name} ({selectedLayer.style})
               </span>
               <button
@@ -715,7 +710,7 @@ export const CanvasWorkspace: React.FC = () => {
                   deleteRedaction(selectedLayer.id);
                 }}
                 title="Delete Redaction (Delete)"
-                className="p-0.5 text-slate-400 hover:text-rose-400 hover:bg-rose-950/50 rounded transition"
+                className="p-0.5 text-zinc-400 hover:text-rose-400 hover:bg-rose-950/40 rounded transition"
               >
                 <Trash2 className="w-3.5 h-3.5" />
               </button>

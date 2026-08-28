@@ -94,24 +94,24 @@ export const ExportModal: React.FC = () => {
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-sm animate-in fade-in duration-150">
-      <div className="w-full max-w-lg bg-slate-900 border border-slate-700/80 rounded-2xl shadow-2xl overflow-hidden flex flex-col max-h-[90vh]">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md animate-in fade-in duration-150">
+      <div className="w-full max-w-lg bg-[#121317] border border-[#272933] rounded-2xl shadow-2xl overflow-hidden flex flex-col max-h-[90vh]">
         {/* Header */}
-        <div className="p-5 border-b border-slate-800 flex items-center justify-between bg-slate-950/40">
+        <div className="p-5 border-b border-[#20222a] flex items-center justify-between bg-[#0a0b0e]">
           <div className="flex items-center space-x-3">
-            <div className="w-9 h-9 rounded-xl bg-indigo-600/15 border border-indigo-500/30 flex items-center justify-center text-indigo-400">
+            <div className="w-9 h-9 rounded-xl bg-zinc-800 border border-zinc-700 flex items-center justify-center text-white">
               <Download className="w-5 h-5" />
             </div>
             <div>
-              <h2 className="text-sm font-bold text-slate-100">Export Protected Image</h2>
-              <p className="text-xs text-slate-400">
+              <h2 className="text-sm font-bold text-white">Export Protected Image</h2>
+              <p className="text-xs text-zinc-400">
                 Permanently flatten all privacy redactions and watermarks
               </p>
             </div>
           </div>
           <button
             onClick={() => setIsExportModalOpen(false)}
-            className="text-slate-400 hover:text-slate-200 p-1.5 rounded-lg hover:bg-slate-800 transition"
+            className="text-zinc-400 hover:text-white p-1.5 rounded-lg hover:bg-[#1f2128] transition"
           >
             <X className="w-4 h-4" />
           </button>
@@ -121,7 +121,7 @@ export const ExportModal: React.FC = () => {
         <div className="p-5 overflow-y-auto space-y-5 text-xs">
           {/* Format Selector */}
           <div>
-            <label className="text-[11px] font-semibold text-slate-400 uppercase tracking-wider block mb-2">
+            <label className="text-[11px] font-bold text-zinc-400 uppercase tracking-wider block mb-2">
               Export Format
             </label>
             <div className="grid grid-cols-3 gap-2">
@@ -135,12 +135,12 @@ export const ExportModal: React.FC = () => {
                   onClick={() => setFormat(id as 'png' | 'jpeg' | 'webp')}
                   className={`p-3 rounded-xl border text-left transition ${
                     format === id
-                      ? 'bg-indigo-600/15 border-indigo-500/80 text-indigo-300 ring-1 ring-indigo-500/50'
-                      : 'bg-slate-800/40 border-slate-700/60 text-slate-400 hover:bg-slate-800 hover:text-slate-200'
+                      ? 'bg-white border-white text-zinc-950 shadow-md'
+                      : 'bg-[#18191f] border-[#272932] text-zinc-400 hover:bg-[#20222a] hover:text-white'
                   }`}
                 >
-                  <div className="font-bold text-xs text-slate-100">{label}</div>
-                  <div className="text-[10px] text-slate-500 mt-0.5">{desc}</div>
+                  <div className="font-bold text-xs">{label}</div>
+                  <div className="text-[10px] text-zinc-500 mt-0.5">{desc}</div>
                 </button>
               ))}
             </div>
@@ -148,10 +148,10 @@ export const ExportModal: React.FC = () => {
 
           {/* Quality Slider for JPEG / WebP */}
           {format !== 'png' && (
-            <div className="bg-slate-800/40 p-3 rounded-xl border border-slate-800 space-y-2">
+            <div className="bg-[#141519] p-3.5 rounded-xl border border-[#23252b] space-y-2.5">
               <div className="flex justify-between items-center text-xs">
-                <span className="text-slate-300 font-medium">Compression Quality</span>
-                <span className="font-mono text-slate-400">{Math.round(quality * 100)}%</span>
+                <span className="text-zinc-200 font-medium">Compression Quality</span>
+                <span className="font-mono text-zinc-400 font-bold">{Math.round(quality * 100)}%</span>
               </div>
               <input
                 type="range"
@@ -160,19 +160,19 @@ export const ExportModal: React.FC = () => {
                 step="0.05"
                 value={quality}
                 onChange={(e) => setQuality(Number(e.target.value))}
-                className="w-full h-1.5 bg-slate-700 rounded-lg appearance-none cursor-pointer"
+                className="w-full h-1.5 bg-zinc-800 rounded-lg appearance-none cursor-pointer"
               />
-              <div className="flex justify-between text-[10px] text-slate-500 pt-1">
-                <span>Smaller Size (60%)</span>
+              <div className="flex justify-between text-[10px] text-zinc-500 pt-1">
+                <span>Smaller (60%)</span>
                 <span>Balanced (85%)</span>
-                <span>Max Quality (100%)</span>
+                <span>Max (100%)</span>
               </div>
             </div>
           )}
 
           {/* Resolution Scale */}
           <div>
-            <label className="text-[11px] font-semibold text-slate-400 uppercase tracking-wider block mb-2">
+            <label className="text-[11px] font-bold text-zinc-400 uppercase tracking-wider block mb-2">
               Output Resolution
             </label>
             <div className="grid grid-cols-3 gap-2">
@@ -184,43 +184,43 @@ export const ExportModal: React.FC = () => {
                 <button
                   key={scaleVal}
                   onClick={() => setScale(scaleVal)}
-                  className={`p-2.5 rounded-lg border text-left transition ${
+                  className={`p-2.5 rounded-xl border text-left transition ${
                     scale === scaleVal
-                      ? 'bg-indigo-600/15 border-indigo-500/80 text-indigo-300'
-                      : 'bg-slate-800/40 border-slate-700/60 text-slate-400 hover:bg-slate-800 hover:text-slate-200'
+                      ? 'bg-[#22242c] border-zinc-400 text-white shadow-sm'
+                      : 'bg-[#18191f] border-[#272932] text-zinc-400 hover:bg-[#20222a] hover:text-white'
                   }`}
                 >
-                  <div className="font-semibold text-xs text-slate-200">{label}</div>
-                  <div className="text-[10px] font-mono text-slate-500 mt-0.5">{res} px</div>
+                  <div className="font-bold text-xs text-zinc-100">{label}</div>
+                  <div className="text-[10px] font-mono text-zinc-500 mt-0.5">{res} px</div>
                 </button>
               ))}
             </div>
           </div>
 
           {/* Filename Preview */}
-          <div className="bg-slate-950 p-3 rounded-xl border border-slate-800 flex items-center justify-between">
+          <div className="bg-[#090a0c] p-3 rounded-xl border border-[#23252b] flex items-center justify-between">
             <div className="flex items-center space-x-2.5">
-              <FileCheck2 className="w-4 h-4 text-emerald-400 shrink-0" />
-              <span className="font-mono text-xs text-slate-200 truncate max-w-[340px]">
+              <FileCheck2 className="w-4 h-4 text-zinc-300 shrink-0" />
+              <span className="font-mono text-xs text-zinc-200 truncate max-w-[340px]">
                 {finalFilename}
               </span>
             </div>
-            <span className="text-[10px] text-slate-500 font-mono">
+            <span className="text-[10px] text-zinc-500 font-mono">
               {outW}×{outH}
             </span>
           </div>
 
-          {/* Safety Checklist (Feature 19) */}
-          <div className="bg-emerald-950/20 border border-emerald-500/30 rounded-xl p-3.5 space-y-2">
-            <div className="flex items-center space-x-2 text-emerald-400 font-semibold text-xs">
-              <ShieldCheck className="w-4 h-4" />
+          {/* Safety Checklist */}
+          <div className="bg-[#141519] border border-[#272933] rounded-xl p-3.5 space-y-2">
+            <div className="flex items-center space-x-2 text-zinc-200 font-bold text-xs">
+              <ShieldCheck className="w-4 h-4 text-emerald-400" />
               <span>Protection & Privacy Guarantee</span>
             </div>
-            <ul className="space-y-1.5 text-[11px] text-slate-300">
+            <ul className="space-y-1.5 text-[11px] text-zinc-400">
               <li className="flex items-center space-x-2">
                 <Check className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
                 <span>
-                  <strong>{redactions.length} Redactions</strong> permanently baked into pixel matrix (unrecoverable)
+                  <strong className="text-zinc-200">{redactions.length} Redactions</strong> permanently baked into pixel matrix
                 </span>
               </li>
               <li className="flex items-center space-x-2">
@@ -242,19 +242,19 @@ export const ExportModal: React.FC = () => {
         </div>
 
         {/* Footer Actions */}
-        <div className="p-4 border-t border-slate-800 bg-slate-950/60 flex items-center justify-between">
+        <div className="p-4 border-t border-[#20222a] bg-[#0a0b0e] flex items-center justify-between">
           <button
             onClick={handleCopyClipboard}
-            className="flex items-center space-x-1.5 px-3.5 py-2 rounded-lg text-xs font-medium text-slate-300 bg-slate-800 hover:bg-slate-700 border border-slate-700 transition"
+            className="flex items-center space-x-1.5 px-3.5 py-2 rounded-xl text-xs font-semibold text-zinc-200 bg-[#18191f] hover:bg-[#22242c] border border-[#2a2c38] transition"
           >
             {copied ? (
               <>
                 <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400" />
-                <span className="text-emerald-400">Copied to Clipboard</span>
+                <span className="text-emerald-400 font-semibold">Copied to Clipboard</span>
               </>
             ) : (
               <>
-                <Clipboard className="w-3.5 h-3.5 text-slate-300" />
+                <Clipboard className="w-3.5 h-3.5 text-zinc-400" />
                 <span>Copy PNG</span>
               </>
             )}
@@ -263,14 +263,14 @@ export const ExportModal: React.FC = () => {
           <div className="flex space-x-2">
             <button
               onClick={() => setIsExportModalOpen(false)}
-              className="px-3.5 py-2 rounded-lg text-xs font-medium text-slate-400 hover:text-slate-200 hover:bg-slate-800 transition"
+              className="px-3.5 py-2 rounded-xl text-xs font-semibold text-zinc-400 hover:text-white hover:bg-[#1f2128] transition"
             >
               Cancel
             </button>
             <button
               disabled={isExporting}
               onClick={handleExport}
-              className="px-5 py-2 rounded-lg text-xs font-semibold text-white bg-indigo-600 hover:bg-indigo-500 shadow-md shadow-indigo-600/30 transition flex items-center space-x-2 disabled:opacity-50"
+              className="px-5 py-2 rounded-xl text-xs font-bold text-zinc-950 bg-white hover:bg-zinc-200 shadow-lg shadow-white/5 transition flex items-center space-x-2 disabled:opacity-50"
             >
               <Download className="w-4 h-4" />
               <span>{isExporting ? 'Processing...' : 'Download Image'}</span>

@@ -167,7 +167,7 @@ export async function exportProtectedImage(
               particleCount: 75,
               spread: 60,
               origin: { y: 0.85 },
-              colors: ['#6366f1', '#a855f7', '#3b82f6', '#10b981'],
+              colors: ['#ffffff', '#e4e4e7', '#a1a1aa', '#f59e0b', '#71717a'],
             });
           } catch {
             // ignore if confetti fails
