@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
-import { SlidersHorizontal, Trash2 } from 'lucide-react';
+import { Plus, SlidersHorizontal, Trash2 } from 'lucide-react';
 import { useEditor } from '../context/EditorContext';
 import { applyImageAdjustments, renderRedactionLayer } from '../engine/pixelProcessing';
 import type { Point, RedactionLayer } from '../engine/types';
@@ -17,6 +17,7 @@ interface DragState {
   origLayerH?: number;
   handle?: ResizeHandleType;
   points?: Point[];
+  startTime?: number;
 }
 
 export const CanvasWorkspace: React.FC = () => {
@@ -78,6 +79,35 @@ export const CanvasWorkspace: React.FC = () => {
     },
     [originalImage]
   );
+
+  // Quick Action: Add a centered redaction box
+  const handleQuickAddBox = () => {
+    if (!originalImage) return;
+    const imgW = originalImage.naturalWidth;
+    const imgH = originalImage.naturalHeight;
+    const defaultW = Math.round(Math.min(imgW * 0.35, 220));
+    const defaultH = Math.round(Math.min(imgH * 0.15, 70));
+    const posX = Math.round((imgW - defaultW) / 2);
+    const posY = Math.round((imgH - defaultH) / 2);
+
+    const shape = activeTool === 'circle' || redactionShape === 'circle' ? 'circle' : 'rectangle';
+    addRedaction({
+      name: `${shape.charAt(0).toUpperCase() + shape.slice(1)} ${redactions.length + 1}`,
+      type: shape,
+      style: redactionStyle,
+      x: posX,
+      y: posY,
+      width: shape === 'circle' ? Math.max(defaultW, defaultH) : defaultW,
+      height: shape === 'circle' ? Math.max(defaultW, defaultH) : defaultH,
+      color: solidColor,
+      opacity: solidOpacity,
+      blurStrength,
+      pixelSize,
+      borderRadius: 0,
+      visible: true,
+    });
+    setActiveTool('select');
+  };
 
   // Main Canvas Render Loop
   const renderCanvas = useCallback(() => {
@@ -274,6 +304,7 @@ export const CanvasWorkspace: React.FC = () => {
         type: 'pan',
         startX: clientX - pan.x,
         startY: clientY - pan.y,
+        startTime: Date.now(),
       });
       return;
     }
@@ -287,6 +318,7 @@ export const CanvasWorkspace: React.FC = () => {
             type: 'split',
             startX: clientX,
             startY: clientY,
+            startTime: Date.now(),
           });
           return;
         }
@@ -310,6 +342,7 @@ export const CanvasWorkspace: React.FC = () => {
             origLayerW: selected.width,
             origLayerH: selected.height,
             handle,
+            startTime: Date.now(),
           });
           return;
         }
@@ -326,6 +359,7 @@ export const CanvasWorkspace: React.FC = () => {
             startY: coords.y,
             origLayerX: selected.x,
             origLayerY: selected.y,
+            startTime: Date.now(),
           });
           return;
         }
@@ -349,6 +383,7 @@ export const CanvasWorkspace: React.FC = () => {
           startY: coords.y,
           origLayerX: hitLayer.x,
           origLayerY: hitLayer.y,
+          startTime: Date.now(),
         });
         return;
       } else {
@@ -362,6 +397,7 @@ export const CanvasWorkspace: React.FC = () => {
         type: 'crop',
         startX: coords.x,
         startY: coords.y,
+        startTime: Date.now(),
       });
       return;
     }
@@ -378,6 +414,7 @@ export const CanvasWorkspace: React.FC = () => {
         type: 'draw',
         startX: coords.x,
         startY: coords.y,
+        startTime: Date.now(),
       });
       setTempShape({
         type: shape,
@@ -399,6 +436,7 @@ export const CanvasWorkspace: React.FC = () => {
         startX: coords.x,
         startY: coords.y,
         points: [{ x: coords.x, y: coords.y }],
+        startTime: Date.now(),
       });
       setTempShape({
         type: 'brush',
@@ -539,9 +577,13 @@ export const CanvasWorkspace: React.FC = () => {
     }
   };
 
-  // End drag/touch
+  // End drag/touch with Smart Tap-to-Place
   const handleEnd = () => {
-    if (dragState?.type === 'draw') {
+    if (dragState?.type === 'draw' && originalImage) {
+      const shape = activeTool === 'face_hide' ? 'ellipse' : redactionShape;
+      const imgW = originalImage.naturalWidth;
+      const imgH = originalImage.naturalHeight;
+
       if (activeTool === 'brush' && tempShape?.points && tempShape.points.length > 1) {
         addRedaction({
           name: `Brush ${redactions.length + 1}`,
@@ -549,8 +591,8 @@ export const CanvasWorkspace: React.FC = () => {
           style: redactionStyle,
           x: 0,
           y: 0,
-          width: originalImage?.naturalWidth || 100,
-          height: originalImage?.naturalHeight || 100,
+          width: imgW,
+          height: imgH,
           points: tempShape.points,
           brushRadius,
           color: solidColor,
@@ -559,8 +601,8 @@ export const CanvasWorkspace: React.FC = () => {
           pixelSize,
           visible: true,
         });
-      } else if (tempShape && (tempShape.width || 0) > 4 && (tempShape.height || 0) > 4) {
-        const shape = activeTool === 'face_hide' ? 'ellipse' : redactionShape;
+      } else if (tempShape && (tempShape.width || 0) > 8 && (tempShape.height || 0) > 8) {
+        // Normal drag-to-draw
         addRedaction({
           name: `${shape.charAt(0).toUpperCase() + shape.slice(1)} ${redactions.length + 1}`,
           type: shape,
@@ -576,7 +618,34 @@ export const CanvasWorkspace: React.FC = () => {
           borderRadius: 0,
           visible: true,
         });
+      } else if (dragState.startX !== undefined && dragState.startY !== undefined) {
+        // TAP-TO-PLACE: If the user just tapped without dragging, place a default box right at tap location!
+        const tapX = dragState.startX;
+        const tapY = dragState.startY;
+        const defaultW = Math.round(Math.min(imgW * 0.28, 180));
+        const defaultH = Math.round(Math.min(imgH * 0.12, 60));
+        const finalW = shape === 'circle' ? Math.max(defaultW, defaultH) : defaultW;
+        const finalH = shape === 'circle' ? Math.max(defaultW, defaultH) : defaultH;
+        const posX = Math.max(0, Math.min(imgW - finalW, Math.round(tapX - finalW / 2)));
+        const posY = Math.max(0, Math.min(imgH - finalH, Math.round(tapY - finalH / 2)));
+
+        addRedaction({
+          name: `${shape.charAt(0).toUpperCase() + shape.slice(1)} ${redactions.length + 1}`,
+          type: shape,
+          style: redactionStyle,
+          x: posX,
+          y: posY,
+          width: finalW,
+          height: finalH,
+          color: solidColor,
+          opacity: solidOpacity,
+          blurStrength,
+          pixelSize,
+          borderRadius: 0,
+          visible: true,
+        });
       }
+
       setTempShape(null);
       setActiveTool('select');
     }
@@ -587,6 +656,7 @@ export const CanvasWorkspace: React.FC = () => {
 
   // Touch Event Listeners for Mobile Android & iOS
   const handleTouchStart = (e: React.TouchEvent) => {
+    e.stopPropagation();
     if (e.touches.length === 2) {
       // Pinch to Zoom
       const dist = Math.hypot(
@@ -600,6 +670,7 @@ export const CanvasWorkspace: React.FC = () => {
   };
 
   const handleTouchMove = (e: React.TouchEvent) => {
+    e.stopPropagation();
     if (e.touches.length === 2 && touchDistance !== null) {
       const dist = Math.hypot(
         e.touches[0].clientX - e.touches[1].clientX,
@@ -614,7 +685,7 @@ export const CanvasWorkspace: React.FC = () => {
   };
 
   const getHandleUnderCursor = (x: number, y: number, layer: RedactionLayer): ResizeHandleType | null => {
-    const handleSize = 14 / zoom;
+    const handleSize = 16 / zoom;
     const { x: lx, y: ly, width: lw, height: lh } = layer;
 
     const handles: { type: ResizeHandleType; hx: number; hy: number }[] = [
@@ -650,7 +721,7 @@ export const CanvasWorkspace: React.FC = () => {
       onTouchMove={handleTouchMove}
       onTouchEnd={handleEnd}
       style={{ cursor: cursorStyle }}
-      className="flex-1 w-full h-full relative bg-[#090a0c] overflow-hidden flex items-center justify-center canvas-checkerboard select-none touch-none"
+      className="flex-1 w-full h-full relative bg-[#090a0c] overflow-hidden flex items-center justify-center canvas-checkerboard select-none touch-none min-h-0"
     >
       {/* Before / After View Tag Indicator */}
       {showBeforeAfter && (
@@ -661,14 +732,34 @@ export const CanvasWorkspace: React.FC = () => {
         </div>
       )}
 
-      {/* Floating Mobile Options / Inspector Trigger Button */}
-      <button
-        onClick={() => setIsMobilePanelOpen(!isMobilePanelOpen)}
-        className="md:hidden absolute top-3 right-4 z-20 flex items-center space-x-1.5 bg-[#141519]/95 backdrop-blur-md px-3 py-1.5 border border-[#282a33] text-xs font-bold font-syne text-zinc-100 shadow-xl active:scale-95 min-h-[36px]"
-      >
-        <SlidersHorizontal className="w-3.5 h-3.5 text-zinc-300" />
-        <span>{isMobilePanelOpen ? 'HIDE OPTIONS' : 'EDIT OPTIONS'}</span>
-      </button>
+      {/* Floating Mobile Quick Action: "+ Add Redact" & "Edit Options" */}
+      <div className="md:hidden absolute top-3 right-3 z-20 flex items-center space-x-1.5">
+        <button
+          onClick={handleQuickAddBox}
+          title="Instantly add redaction box"
+          className="flex items-center space-x-1 bg-white text-zinc-950 px-2.5 py-1.5 text-xs font-bold font-syne shadow-lg active:scale-95 min-h-[36px]"
+        >
+          <Plus className="w-3.5 h-3.5" />
+          <span>+ REDACT</span>
+        </button>
+
+        <button
+          onClick={() => setIsMobilePanelOpen(!isMobilePanelOpen)}
+          className="flex items-center space-x-1 bg-[#141519]/95 backdrop-blur-md px-2.5 py-1.5 border border-[#282a33] text-xs font-bold font-syne text-zinc-100 shadow-xl active:scale-95 min-h-[36px]"
+        >
+          <SlidersHorizontal className="w-3.5 h-3.5 text-zinc-300" />
+          <span>{isMobilePanelOpen ? 'HIDE' : 'SETTINGS'}</span>
+        </button>
+      </div>
+
+      {/* Subtle Mobile Guidance Banner on First Load / Empty Redactions */}
+      {redactions.length === 0 && (
+        <div className="md:hidden absolute bottom-4 z-20 pointer-events-none px-4 text-center">
+          <div className="inline-block bg-[#121317]/90 backdrop-blur-md px-3 py-1.5 border border-[#282a33] text-[11px] text-zinc-300 font-medium shadow-xl">
+            💡 Tap or drag on the image to place a redaction box
+          </div>
+        </div>
+      )}
 
       {/* Floating Canvas Transform Wrapper */}
       <div
@@ -702,20 +793,20 @@ export const CanvasWorkspace: React.FC = () => {
             {(['nw', 'n', 'ne', 'e', 'se', 's', 'sw', 'w'] as ResizeHandleType[]).map((handle) => {
               let posClass = '';
               switch (handle) {
-                case 'nw': posClass = '-top-1.5 -left-1.5'; break;
-                case 'n': posClass = '-top-1.5 left-1/2 -translate-x-1/2'; break;
-                case 'ne': posClass = '-top-1.5 -right-1.5'; break;
-                case 'e': posClass = 'top-1/2 -right-1.5 -translate-y-1/2'; break;
-                case 'se': posClass = '-bottom-1.5 -right-1.5'; break;
-                case 's': posClass = '-bottom-1.5 left-1/2 -translate-x-1/2'; break;
-                case 'sw': posClass = '-bottom-1.5 -left-1.5'; break;
-                case 'w': posClass = 'top-1/2 -left-1.5 -translate-y-1/2'; break;
+                case 'nw': posClass = '-top-2 -left-2'; break;
+                case 'n': posClass = '-top-2 left-1/2 -translate-x-1/2'; break;
+                case 'ne': posClass = '-top-2 -right-2'; break;
+                case 'e': posClass = 'top-1/2 -right-2 -translate-y-1/2'; break;
+                case 'se': posClass = '-bottom-2 -right-2'; break;
+                case 's': posClass = '-bottom-2 left-1/2 -translate-x-1/2'; break;
+                case 'sw': posClass = '-bottom-2 -left-2'; break;
+                case 'w': posClass = 'top-1/2 -left-2 -translate-y-1/2'; break;
               }
 
               return (
                 <div
                   key={handle}
-                  className={`absolute w-3.5 h-3.5 bg-white border border-zinc-950 rounded-none shadow-sm pointer-events-auto ${posClass}`}
+                  className={`absolute w-4 h-4 bg-white border-2 border-zinc-950 rounded-none shadow-sm pointer-events-auto ${posClass}`}
                   style={{ cursor: `${handle}-resize` }}
                 />
               );
@@ -724,7 +815,7 @@ export const CanvasWorkspace: React.FC = () => {
             {/* Quick Delete & Layer Tag Badge */}
             <div
               style={{ pointerEvents: 'auto' }}
-              className="absolute -top-8 left-0 flex items-center space-x-2 bg-[#121317] px-2 py-0.5 rounded-none border border-[#2b2d38]"
+              className="absolute -top-8 left-0 flex items-center space-x-2 bg-[#121317] px-2 py-0.5 rounded-none border border-[#2b2d38] shadow-lg"
             >
               <span className="text-[11px] font-bold font-syne text-zinc-200 capitalize truncate max-w-[120px]">
                 {selectedLayer.name} ({selectedLayer.style})
